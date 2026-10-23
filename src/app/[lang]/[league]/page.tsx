@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { getDictionary, getLocale, type Dictionary } from "@/dictionaries";
 import { enabledCompetitions, findCompetition } from "@/lib/competitions";
-import { getLastResults, getNextFixtures, getStandings, load, type Loaded, type Match } from "@/lib/football";
+import { getLastResults, getNextFixtures, getStandings, type Loaded, type Match } from "@/lib/football";
 import type { Locale } from "@/lib/i18n";
 
 export async function generateStaticParams() {
@@ -25,10 +25,10 @@ export default async function LeaguePage({ params }: PageProps<"/[lang]/[league]
       </Suspense>
       <div className="grid gap-8 md:grid-cols-2">
         <Suspense>
-          <Matches title={dict.league.fixtures} load={load(() => getNextFixtures(id))} dict={dict} locale={locale} />
+          <Matches title={dict.league.fixtures} load={getNextFixtures(id)} dict={dict} locale={locale} />
         </Suspense>
         <Suspense>
-          <Matches title={dict.league.results} load={load(() => getLastResults(id))} dict={dict} locale={locale} />
+          <Matches title={dict.league.results} load={getLastResults(id)} dict={dict} locale={locale} />
         </Suspense>
       </div>
     </article>
@@ -41,7 +41,7 @@ function Unavailable({ result, dict }: { result: Loaded<unknown>; dict: Dictiona
 }
 
 async function Standings({ leagueId, dict }: { leagueId: number; dict: Dictionary }) {
-  const result = await load(() => getStandings(leagueId));
+  const result = await getStandings(leagueId);
   return (
     <section>
       <h2 className="mb-3 text-xl font-semibold">{dict.league.standings}</h2>
