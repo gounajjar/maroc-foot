@@ -1,0 +1,16 @@
+{
+  "site": { "name": "Maroc-Foot", "tagline": "Live scores, standings and fixtures" },
+  "nav": { "home": "Home", "live": "Live", "news": "News" },
+  "home": { "competitions": "Competitions" },
+  "league": {
+    "standings": "Standings",
+    "fixtures": "Upcoming fixtures",
+    "results": "Latest results",
+    "team": "Team",
+    "played": "P",
+    "goalDiff": "GD",
+    "points": "Pts",
+    "noData": "Data unavailable for now.",
+    "noKey": "The API-Football key is not configured (API_FOOTBALL_KEY)."
+  }
+}

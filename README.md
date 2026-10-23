@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Maroc-Foot
 
-## Getting Started
+Site de football : résultats en direct, classements et calendriers, en français, arabe et anglais.
+Championnats au lancement : Botola Pro, Premier League, LaLiga, Serie A, Bundesliga, Ligue 1.
 
-First, run the development server:
+## Démarrer
 
 ```bash
+cp .env.example .env.local   # puis renseigner API_FOOTBALL_KEY
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Le site s'ouvre sur http://localhost:3000 et redirige vers `/fr`, `/ar` ou `/en` selon la langue du navigateur.
+Sans clé API, les pages s'affichent avec un message « clé non configurée ».
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Organisation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Dossier | Rôle |
+| --- | --- |
+| `src/app/[lang]/` | Pages, une arborescence par langue (`ar` en sens droite à gauche) |
+| `src/dictionaries/` | Textes de l'interface en `fr`, `ar`, `en` |
+| `src/lib/competitions.ts` | Liste des championnats ; en ajouter un = une entrée de plus |
+| `src/lib/football/` | Accès aux données. `types.ts` définit un format neutre, `api-football.ts` l'adapte à API-Football |
+| `src/proxy.ts` | Redirection vers la langue préférée |
 
-## Learn More
+Les appels à API-Football sont mis en cache côté serveur (`"use cache"`) pour que le trafic des visiteurs ne consomme pas le quota.
 
-To learn more about Next.js, take a look at the following resources:
+## Étapes suivantes
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Vérifier la Botola Pro avec une clé API-Football gratuite.
+2. Service de synchronisation + base Postgres/Redis pour le direct.
+3. Page « En direct ».
+4. Articles externes (RSS et partage manuel).

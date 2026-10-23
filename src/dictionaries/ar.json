@@ -1,0 +1,16 @@
+{
+  "site": { "name": "ماروك فوت", "tagline": "النتائج المباشرة والترتيب وجدول المباريات" },
+  "nav": { "home": "الرئيسية", "live": "مباشر", "news": "مقالات" },
+  "home": { "competitions": "البطولات" },
+  "league": {
+    "standings": "الترتيب",
+    "fixtures": "المباريات القادمة",
+    "results": "آخر النتائج",
+    "team": "الفريق",
+    "played": "لعب",
+    "goalDiff": "الفارق",
+    "points": "النقاط",
+    "noData": "البيانات غير متوفرة حاليا.",
+    "noKey": "مفتاح API-Football غير مُعدّ (API_FOOTBALL_KEY)."
+  }
+}
