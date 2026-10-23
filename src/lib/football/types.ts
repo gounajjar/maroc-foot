@@ -25,8 +25,7 @@ export type Match = {
 
 export interface FootballProvider {
   standings(leagueId: number, season: number): Promise<StandingRow[]>;
-  nextFixtures(leagueId: number, season: number, count: number): Promise<Match[]>;
-  lastResults(leagueId: number, season: number, count: number): Promise<Match[]>;
+  seasonFixtures(leagueId: number, season: number): Promise<Match[]>;
   liveMatches(leagueIds: number[]): Promise<Match[]>;
 }
 

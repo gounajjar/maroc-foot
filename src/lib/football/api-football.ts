@@ -72,11 +72,10 @@ export const apiFootball: FootballProvider = {
       points: s.points,
     }));
   },
-  async nextFixtures(league, season, count) {
-    return (await get<ApiFixture>("/fixtures", { league, season, next: count })).map(toMatch);
-  },
-  async lastResults(league, season, count) {
-    return (await get<ApiFixture>("/fixtures", { league, season, last: count })).map(toMatch);
+  // The free plan refuses the `next` and `last` params, so the whole season is
+  // fetched and filtered by the caller. It is one request either way.
+  async seasonFixtures(league, season) {
+    return (await get<ApiFixture>("/fixtures", { league, season })).map(toMatch);
   },
   async liveMatches(leagueIds) {
     return (await get<ApiFixture>("/fixtures", { live: leagueIds.join("-") })).map(toMatch);

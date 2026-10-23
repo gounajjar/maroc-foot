@@ -28,7 +28,7 @@ Les appels à API-Football sont mis en cache côté serveur (`"use cache"`) pour
 
 ## Étapes suivantes
 
-1. Vérifier la Botola Pro avec une clé API-Football gratuite.
+1. Passer au plan Pro d'API-Football au lancement (le plan gratuit est limité aux saisons 2022 à 2024). Botola Pro et les 5 grands championnats sont vérifiés.
 2. Service de synchronisation + base Postgres/Redis pour le direct.
 3. Page « En direct ».
 4. Articles externes (RSS et partage manuel).
