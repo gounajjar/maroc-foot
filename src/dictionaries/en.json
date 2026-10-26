@@ -1,7 +1,30 @@
 {
-  "site": { "name": "Maroc-Foot", "tagline": "Live scores, standings and fixtures" },
-  "nav": { "home": "Home", "live": "Live", "news": "News" },
-  "home": { "competitions": "Competitions" },
+  "site": {
+    "name": "Maroc-Foot",
+    "tagline": "Live scores, standings and fixtures"
+  },
+  "nav": {
+    "home": "Home",
+    "live": "Live",
+    "news": "News"
+  },
+  "home": {
+    "competitions": "Competitions",
+    "heroEyebrow": "Botola Pro and Europe's top leagues",
+    "heroTitle": "Moroccan and European football, all in one place",
+    "heroText": "Scores, standings and fixtures updated all day long.",
+    "heroCta": "Go to Botola Pro",
+    "others": "European leagues",
+    "standings": "Standings and results",
+    "countries": {
+      "MA": "Morocco",
+      "GB": "England",
+      "ES": "Spain",
+      "IT": "Italy",
+      "DE": "Germany",
+      "FR": "France"
+    }
+  },
   "league": {
     "standings": "Standings",
     "fixtures": "Upcoming fixtures",
