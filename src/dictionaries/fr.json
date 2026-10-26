@@ -1,7 +1,30 @@
 {
-  "site": { "name": "Maroc-Foot", "tagline": "Résultats en direct, classements et calendriers" },
-  "nav": { "home": "Accueil", "live": "En direct", "news": "Articles" },
-  "home": { "competitions": "Championnats" },
+  "site": {
+    "name": "Maroc-Foot",
+    "tagline": "Résultats en direct, classements et calendriers"
+  },
+  "nav": {
+    "home": "Accueil",
+    "live": "En direct",
+    "news": "Articles"
+  },
+  "home": {
+    "competitions": "Championnats",
+    "heroEyebrow": "Botola Pro et grands championnats européens",
+    "heroTitle": "Tout le foot marocain et européen, au même endroit",
+    "heroText": "Résultats, classements et calendriers mis à jour toute la journée.",
+    "heroCta": "Voir la Botola Pro",
+    "others": "Championnats européens",
+    "standings": "Classement et résultats",
+    "countries": {
+      "MA": "Maroc",
+      "GB": "Angleterre",
+      "ES": "Espagne",
+      "IT": "Italie",
+      "DE": "Allemagne",
+      "FR": "France"
+    }
+  },
   "league": {
     "standings": "Classement",
     "fixtures": "Prochains matchs",

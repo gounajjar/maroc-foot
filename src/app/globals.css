@@ -1,20 +1,28 @@
 @import "tailwindcss";
 
+/* Brand palette (logo "L'Étoile") */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --brand-red: #c1272d;
+  --brand-green: #006233;
+  --ink: #12100f;
+  --paper: #f6f1ea;
+  --background: var(--paper);
+  --foreground: var(--ink);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-brand-red: var(--brand-red);
+  --color-brand-green: var(--brand-green);
   --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-barlow), var(--font-reem-kufi), sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: var(--ink);
+    --foreground: #ede8e1;
   }
 }
 
