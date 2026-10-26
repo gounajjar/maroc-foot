@@ -37,8 +37,9 @@ type LsMatch = {
 type Paged = { next_page?: string | false | null };
 
 async function get<T>(path: string, params: Record<string, string>): Promise<T> {
-  const key = process.env.LIVESCORE_API_KEY;
-  const secret = process.env.LIVESCORE_API_SECRET;
+  // Trimmed because a value pasted into a dashboard can carry a stray space.
+  const key = process.env.LIVESCORE_API_KEY?.trim();
+  const secret = process.env.LIVESCORE_API_SECRET?.trim();
   if (!key || !secret) throw new MissingApiKeyError();
   const url = new URL(`${BASE_URL}/${path}`);
   for (const [name, value] of Object.entries({ ...params, key, secret })) url.searchParams.set(name, value);
