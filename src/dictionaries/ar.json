@@ -11,6 +11,6 @@
     "goalDiff": "الفارق",
     "points": "النقاط",
     "noData": "البيانات غير متوفرة حاليا.",
-    "noKey": "مفتاح API-Football غير مُعدّ (API_FOOTBALL_KEY)."
+    "noKey": "مفتاح مصدر البيانات غير مُعدّ."
   }
 }

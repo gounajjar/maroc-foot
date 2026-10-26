@@ -60,8 +60,14 @@ async function get<T>(path: string, params: Record<string, string | number>): Pr
   return body.response;
 }
 
+// API-Football needs an explicit season. European seasons start in July or August.
+function defaultSeason() {
+  const now = new Date();
+  return now.getUTCMonth() >= 6 ? now.getUTCFullYear() : now.getUTCFullYear() - 1;
+}
+
 export const apiFootball: FootballProvider = {
-  async standings(league, season) {
+  async standings(league, season = defaultSeason()) {
     const res = await get<{ league: { standings: ApiStanding[][] } }>("/standings", { league, season });
     const table = res[0]?.league.standings[0] ?? [];
     return table.map((s): StandingRow => ({
@@ -74,10 +80,7 @@ export const apiFootball: FootballProvider = {
   },
   // The free plan refuses the `next` and `last` params, so the whole season is
   // fetched and filtered by the caller. It is one request either way.
-  async seasonFixtures(league, season) {
+  async seasonFixtures(league, season = defaultSeason()) {
     return (await get<ApiFixture>("/fixtures", { league, season })).map(toMatch);
-  },
-  async liveMatches(leagueIds) {
-    return (await get<ApiFixture>("/fixtures", { live: leagueIds.join("-") })).map(toMatch);
   },
 };
