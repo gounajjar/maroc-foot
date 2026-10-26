@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Geist } from "next/font/google";
+import { Barlow_Condensed, Geist, Reem_Kufi } from "next/font/google";
+import { LogoMark } from "@/components/Logo";
 import { getDictionary, getLocale } from "@/dictionaries";
 import { isRtl, locales } from "@/lib/i18n";
 import "../globals.css";
@@ -8,6 +9,18 @@ import "../globals.css";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+});
+
+const barlow = Barlow_Condensed({
+  variable: "--font-barlow",
+  subsets: ["latin"],
+  weight: ["600", "800"],
+});
+
+const reemKufi = Reem_Kufi({
+  variable: "--font-reem-kufi",
+  subsets: ["arabic"],
+  weight: ["500", "700"],
 });
 
 export async function generateStaticParams() {
@@ -24,17 +37,23 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
   const dict = await getDictionary();
 
   return (
-    <html lang={locale} dir={isRtl(locale) ? "rtl" : "ltr"} className={`${geistSans.variable} h-full antialiased`}>
+    <html lang={locale} dir={isRtl(locale) ? "rtl" : "ltr"} className={`${geistSans.variable} ${barlow.variable} ${reemKufi.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <header className="border-b border-black/10 dark:border-white/15">
+        <header className="bg-brand-red text-white">
           <nav className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3">
-            <Link href={`/${locale}`} className="text-lg font-semibold">
-              {dict.site.name}
+            <Link href={`/${locale}`} aria-label={dict.site.name} className="flex items-center gap-3">
+              <LogoMark size={44} inverse />
+              <span className="flex flex-col leading-none">
+                <span className="font-display text-2xl font-extrabold tracking-wide uppercase">
+                  Maroc<span className="text-[#9fe3b9]">·</span>Foot
+                </span>
+                <span className="font-display text-sm font-medium opacity-90">ماروك فوت</span>
+              </span>
             </Link>
             <ul className="flex gap-3 text-sm">
               {locales.map((l) => (
                 <li key={l}>
-                  <Link href={`/${l}`} className={l === locale ? "font-semibold underline" : "opacity-70"}>
+                  <Link href={`/${l}`} className={l === locale ? "font-semibold underline underline-offset-4" : "opacity-80 hover:opacity-100"}>
                     {l.toUpperCase()}
                   </Link>
                 </li>

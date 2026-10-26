@@ -15,7 +15,7 @@ export default async function Home() {
           <li key={c.slug}>
             <Link
               href={`/${locale}/${c.slug}`}
-              className="block rounded-lg border border-black/10 p-4 hover:bg-black/5 dark:border-white/15 dark:hover:bg-white/5"
+              className="block rounded-lg border border-black/10 bg-white/70 p-4 font-medium transition-colors hover:border-brand-green hover:text-brand-green dark:border-white/15 dark:bg-white/5 dark:hover:text-white"
             >
               {c.names[locale]}
             </Link>
