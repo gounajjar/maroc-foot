@@ -2,6 +2,7 @@ import "server-only";
 import { cacheLife } from "next/cache";
 import { apiFootball } from "./api-football";
 import { footballData } from "./football-data";
+import { liveScore } from "./live-score";
 import type { FootballProvider, Match, ProviderName, Source } from "./types";
 
 export * from "./types";
@@ -9,6 +10,7 @@ export * from "./types";
 const providers: Record<ProviderName, { api: FootballProvider; keyVar: string }> = {
   apiFootball: { api: apiFootball, keyVar: "API_FOOTBALL_KEY" },
   footballData: { api: footballData, keyVar: "FOOTBALL_DATA_KEY" },
+  liveScore: { api: liveScore, keyVar: "LIVESCORE_API_KEY" },
 };
 
 // Season start year (2026 = season 2026-27). Leave FOOTBALL_SEASON unset to
