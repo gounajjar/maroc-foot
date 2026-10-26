@@ -43,11 +43,8 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
           <nav className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3">
             <Link href={`/${locale}`} aria-label={dict.site.name} className="flex items-center gap-3">
               <LogoMark size={44} inverse />
-              <span className="flex flex-col leading-none">
-                <span className="font-display text-2xl font-extrabold tracking-wide uppercase">
-                  Maroc<span className="text-[#9fe3b9]">·</span>Foot
-                </span>
-                <span className="font-display text-sm font-medium opacity-90">ماروك فوت</span>
+              <span className="font-display text-2xl leading-none font-extrabold tracking-wide uppercase">
+                Maroc<span className="text-[#9fe3b9]">·</span>Foot
               </span>
             </Link>
             <ul className="flex gap-3 text-sm">
