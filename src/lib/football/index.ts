@@ -7,10 +7,10 @@ import type { FootballProvider, Match, ProviderName, Source } from "./types";
 
 export * from "./types";
 
-const providers: Record<ProviderName, { api: FootballProvider; keyVar: string }> = {
-  apiFootball: { api: apiFootball, keyVar: "API_FOOTBALL_KEY" },
-  footballData: { api: footballData, keyVar: "FOOTBALL_DATA_KEY" },
-  liveScore: { api: liveScore, keyVar: "LIVESCORE_API_KEY" },
+const providers: Record<ProviderName, { api: FootballProvider; keyVars: string[] }> = {
+  apiFootball: { api: apiFootball, keyVars: ["API_FOOTBALL_KEY"] },
+  footballData: { api: footballData, keyVars: ["FOOTBALL_DATA_KEY"] },
+  liveScore: { api: liveScore, keyVars: ["LIVESCORE_API_KEY", "LIVESCORE_API_SECRET"] },
 };
 
 // Season start year (2026 = season 2026-27). Leave FOOTBALL_SEASON unset to
@@ -48,7 +48,7 @@ async function cachedSeasonFixtures(provider: ProviderName, id: string) {
 
 // The key is checked outside the cached scope so that adding it takes effect
 // without waiting for a cached failure to expire.
-const hasKey = (source: Source) => Boolean(process.env[providers[source.provider].keyVar]);
+const hasKey = (source: Source) => providers[source.provider].keyVars.every((name) => process.env[name]?.trim());
 const noKey = { ok: false, reason: "noKey" } as const;
 
 const byKickoff = (a: Match, b: Match) => a.kickoff.localeCompare(b.kickoff);
