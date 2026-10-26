@@ -6,7 +6,7 @@ Championnats au lancement : Botola Pro, Premier League, LaLiga, Serie A, Bundesl
 ## Démarrer
 
 ```bash
-cp .env.example .env.local   # puis renseigner FOOTBALL_DATA_KEY (et API_FOOTBALL_KEY pour la Botola)
+cp .env.example .env.local   # puis renseigner FOOTBALL_DATA_KEY (et LIVESCORE_API_KEY / LIVESCORE_API_SECRET pour la Botola)
 npm install
 npm run dev
 ```
@@ -21,10 +21,10 @@ Sans clé API, les pages s'affichent avec un message « clé non configurée ».
 | `src/app/[lang]/` | Pages, une arborescence par langue (`ar` en sens droite à gauche) |
 | `src/dictionaries/` | Textes de l'interface en `fr`, `ar`, `en` |
 | `src/lib/competitions.ts` | Liste des championnats ; en ajouter un = une entrée de plus |
-| `src/lib/football/` | Accès aux données. `types.ts` définit un format neutre, `api-football.ts` l'adapte à API-Football |
+| `src/lib/football/` | Accès aux données. `types.ts` définit un format neutre, `football-data.ts` et `live-score.ts` l'adaptent à chaque source |
 | `src/proxy.ts` | Redirection vers la langue préférée |
 
-Les appels aux sources de données (football-data.org pour les 5 grands championnats, API-Football pour la Botola, voir `src/lib/competitions.ts`) sont mis en cache côté serveur (`"use cache"`) pour que le trafic des visiteurs ne consomme pas le quota.
+Les appels aux sources de données (football-data.org pour les 5 grands championnats, Live-score API pour la Botola, voir `src/lib/competitions.ts`) sont mis en cache côté serveur (`"use cache"`) pour que le trafic des visiteurs ne consomme pas le quota.
 
 ## Étapes suivantes
 

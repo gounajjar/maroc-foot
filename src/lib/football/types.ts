@@ -29,7 +29,7 @@ export interface FootballProvider {
   seasonFixtures(competitionId: string, season?: number): Promise<Match[]>;
 }
 
-export type ProviderName = "apiFootball" | "footballData";
+export type ProviderName = "apiFootball" | "footballData" | "liveScore";
 
 // Where a competition's data comes from: the provider and its own id for it.
 export type Source = { provider: ProviderName; id: string };
