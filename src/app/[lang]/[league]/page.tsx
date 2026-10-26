@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { getDictionary, getLocale, type Dictionary } from "@/dictionaries";
 import { enabledCompetitions, findCompetition } from "@/lib/competitions";
-import { getLastResults, getNextFixtures, getStandings, type Loaded, type Match } from "@/lib/football";
+import { getLastResults, getNextFixtures, getStandings, type Loaded, type Match, type Source } from "@/lib/football";
 import type { Locale } from "@/lib/i18n";
 
 export async function generateStaticParams() {
@@ -15,20 +15,20 @@ export default async function LeaguePage({ params }: PageProps<"/[lang]/[league]
   if (!competition) notFound();
   const locale = await getLocale();
   const dict = await getDictionary();
-  const id = competition.apiFootballId;
+  const { source } = competition;
 
   return (
     <article className="space-y-8">
       <h1 className="text-2xl font-semibold">{competition.names[locale]}</h1>
       <Suspense>
-        <Standings leagueId={id} dict={dict} />
+        <Standings source={source} dict={dict} />
       </Suspense>
       <div className="grid gap-8 md:grid-cols-2">
         <Suspense>
-          <Matches title={dict.league.fixtures} load={getNextFixtures(id)} dict={dict} locale={locale} />
+          <Matches title={dict.league.fixtures} load={getNextFixtures(source)} dict={dict} locale={locale} />
         </Suspense>
         <Suspense>
-          <Matches title={dict.league.results} load={getLastResults(id)} dict={dict} locale={locale} />
+          <Matches title={dict.league.results} load={getLastResults(source)} dict={dict} locale={locale} />
         </Suspense>
       </div>
     </article>
@@ -40,8 +40,8 @@ function Unavailable({ result, dict }: { result: Loaded<unknown>; dict: Dictiona
   return <p className="opacity-70">{result.reason === "noKey" ? dict.league.noKey : dict.league.noData}</p>;
 }
 
-async function Standings({ leagueId, dict }: { leagueId: number; dict: Dictionary }) {
-  const result = await getStandings(leagueId);
+async function Standings({ source, dict }: { source: Source; dict: Dictionary }) {
+  const result = await getStandings(source);
   return (
     <section>
       <h2 className="mb-3 text-xl font-semibold">{dict.league.standings}</h2>

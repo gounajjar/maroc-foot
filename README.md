@@ -6,7 +6,7 @@ Championnats au lancement : Botola Pro, Premier League, LaLiga, Serie A, Bundesl
 ## Démarrer
 
 ```bash
-cp .env.example .env.local   # puis renseigner API_FOOTBALL_KEY
+cp .env.example .env.local   # puis renseigner FOOTBALL_DATA_KEY (et API_FOOTBALL_KEY pour la Botola)
 npm install
 npm run dev
 ```
@@ -24,11 +24,11 @@ Sans clé API, les pages s'affichent avec un message « clé non configurée ».
 | `src/lib/football/` | Accès aux données. `types.ts` définit un format neutre, `api-football.ts` l'adapte à API-Football |
 | `src/proxy.ts` | Redirection vers la langue préférée |
 
-Les appels à API-Football sont mis en cache côté serveur (`"use cache"`) pour que le trafic des visiteurs ne consomme pas le quota.
+Les appels aux sources de données (football-data.org pour les 5 grands championnats, API-Football pour la Botola, voir `src/lib/competitions.ts`) sont mis en cache côté serveur (`"use cache"`) pour que le trafic des visiteurs ne consomme pas le quota.
 
 ## Étapes suivantes
 
-1. Passer au plan Pro d'API-Football au lancement (le plan gratuit est limité aux saisons 2022 à 2024). Botola Pro et les 5 grands championnats sont vérifiés.
+1. Choisir une source pour la Botola Pro (compte API-Football suspendu ; pistes : Live-score API, Statorium).
 2. Service de synchronisation + base Postgres/Redis pour le direct.
 3. Page « En direct ».
 4. Articles externes (RSS et partage manuel).

@@ -11,6 +11,6 @@
     "goalDiff": "Diff",
     "points": "Pts",
     "noData": "Données indisponibles pour le moment.",
-    "noKey": "La clé API-Football n'est pas configurée (API_FOOTBALL_KEY)."
+    "noKey": "La clé de la source de données n'est pas configurée."
   }
 }

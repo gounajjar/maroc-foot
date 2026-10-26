@@ -24,9 +24,14 @@ export type Match = {
 };
 
 export interface FootballProvider {
-  standings(leagueId: number, season: number): Promise<StandingRow[]>;
-  seasonFixtures(leagueId: number, season: number): Promise<Match[]>;
-  liveMatches(leagueIds: number[]): Promise<Match[]>;
+  // `season` is the start year (2026 = 2026-27); undefined means the current one.
+  standings(competitionId: string, season?: number): Promise<StandingRow[]>;
+  seasonFixtures(competitionId: string, season?: number): Promise<Match[]>;
 }
+
+export type ProviderName = "apiFootball" | "footballData";
+
+// Where a competition's data comes from: the provider and its own id for it.
+export type Source = { provider: ProviderName; id: string };
 
 export class MissingApiKeyError extends Error {}
