@@ -80,6 +80,13 @@ async function Standings({ source, dict }: { source: Source; dict: Dictionary })
   const result = await getStandings(source);
   if (!result.ok) return <Unavailable result={result} dict={dict} />;
   const l = dict.league;
+  if (result.data.length === 0) return <p className="opacity-70">{l.noTable}</p>;
+  // Some cups split the table into groups: one table per group, in order.
+  const groups: { name?: string; rows: StandingRow[] }[] = [];
+  for (const row of result.data) {
+    if (groups.length > 0 && groups.at(-1)!.name === row.group) groups.at(-1)!.rows.push(row);
+    else groups.push({ name: row.group, rows: [row] });
+  }
   // Won, drawn and lost are hidden on narrow screens to leave room for names.
   const stats = [
     { label: l.played, value: (r: StandingRow) => r.played },
@@ -94,40 +101,51 @@ async function Standings({ source, dict }: { source: Source; dict: Dictionary })
 
   return (
     <>
-      <div className="overflow-x-auto">
-        <table className={tableClass}>
-          <thead className="bg-brand-red text-xs text-white uppercase">
-            <tr>
-              <th className="w-8 py-2 ps-3 text-start">#</th>
-              <th className="px-2 py-2 text-start">{l.team}</th>
-              {stats.map((s) => (
-                <th key={s.label} className={cell(s.wide)}>
-                  {s.label}
-                </th>
-              ))}
-              <th className="py-2 pe-3 ps-1.5 text-center">{l.points}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {result.data.map((row) => (
-              <tr key={row.team.id} className="border-t border-black/5 dark:border-white/10">
-                <td className="py-2 ps-3 font-semibold tabular-nums opacity-60">{row.rank}</td>
-                <td className="px-2 py-2">
-                  <span className="flex items-center gap-2">
-                    <Crest team={row.team} />
-                    <span className="font-medium">{row.team.name}</span>
-                  </span>
-                </td>
-                {stats.map((s) => (
-                  <td key={s.label} className={cell(s.wide)}>
-                    {s.value(row)}
-                  </td>
-                ))}
-                <td className="py-2 pe-3 ps-1.5 text-center font-bold tabular-nums">{row.points}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="space-y-6">
+        {groups.map(({ name, rows }) => (
+          <section key={name ?? ""}>
+            {name && (
+              <h3 className="font-display mb-2 text-lg font-bold">
+                {l.group} {name}
+              </h3>
+            )}
+            <div className="overflow-x-auto">
+              <table className={tableClass}>
+                <thead className="bg-brand-red text-xs text-white uppercase">
+                  <tr>
+                    <th className="w-8 py-2 ps-3 text-start">#</th>
+                    <th className="px-2 py-2 text-start">{l.team}</th>
+                    {stats.map((s) => (
+                      <th key={s.label} className={cell(s.wide)}>
+                        {s.label}
+                      </th>
+                    ))}
+                    <th className="py-2 pe-3 ps-1.5 text-center">{l.points}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.map((row) => (
+                    <tr key={row.team.id} className="border-t border-black/5 dark:border-white/10">
+                      <td className="py-2 ps-3 font-semibold tabular-nums opacity-60">{row.rank}</td>
+                      <td className="px-2 py-2">
+                        <span className="flex items-center gap-2">
+                          <Crest team={row.team} />
+                          <span className="font-medium">{row.team.name}</span>
+                        </span>
+                      </td>
+                      {stats.map((s) => (
+                        <td key={s.label} className={cell(s.wide)}>
+                          {s.value(row)}
+                        </td>
+                      ))}
+                      <td className="py-2 pe-3 ps-1.5 text-center font-bold tabular-nums">{row.points}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        ))}
       </div>
       <p className="mt-2 text-xs opacity-60">{l.legend}</p>
     </>

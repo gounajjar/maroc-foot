@@ -2,12 +2,14 @@ import "server-only";
 import type { FootballProvider, Match, MatchStatus, StandingRow, Team } from "./types";
 import { MissingApiKeyError } from "./types";
 
-// Live-score API (livescore-api.com). Source of the Botola Pro, competition id
-// "38". Auth is a key and a secret passed as query parameters. Upcoming,
-// finished and live matches come from three separate endpoints, merged here
-// into one season-wide list.
+// Live-score API (livescore-api.com). Source of the Botola Pro (competition id
+// "38") and of the European and African club cups. Auth is a key and a secret
+// passed as query parameters. Upcoming, finished and live matches come from
+// three separate endpoints, merged here into one season-wide list.
 const BASE_URL = "https://livescore-api.com/api-client";
-const MAX_PAGES = 10;
+// Cup histories include the qualifying rounds: about 300 matches (10 pages)
+// for the Conference League.
+const MAX_PAGES = 20;
 
 type Id = number | string;
 type LsTeam = { id: Id; name: string; logo?: string | null };
@@ -25,7 +27,7 @@ type LsTableRow = {
 };
 type LsTable = {
   season: { start: string; end: string };
-  stages: { groups: { standings: LsTableRow[] }[] }[];
+  stages: { groups: { name: string; standings: LsTableRow[] }[] }[];
 };
 // Fields shared by fixtures, history and live entries. `time` is the kick-off
 // ("18:00:00") in fixtures, but "FT" or the minute played in the other two.
@@ -73,12 +75,21 @@ async function getAllPages(path: string, params: Record<string, string>, field: 
   return all;
 }
 
+// Until a cup's new group stage starts, the API keeps returning the previous
+// season's table. That table is dropped and the season is taken to start the
+// day after it ended.
 async function getTable(competitionId: string, season?: number) {
   const params: Record<string, string> = { competition_id: competitionId };
   if (season !== undefined) params.season = String(season);
   const data = await get<LsTable>("competitions/table.json", params);
-  const rows = data.stages[0]?.groups.flatMap((g) => g.standings) ?? [];
-  return { season: data.season, rows };
+  const groups = data.stages[0]?.groups ?? [];
+  const current = season !== undefined || data.season.end >= new Date().toISOString().slice(0, 10);
+  if (current) {
+    const rows = groups.flatMap((g) => g.standings.map((row) => ({ row, group: groups.length > 1 ? g.name : undefined })));
+    return { start: data.season.start, rows };
+  }
+  const start = new Date(Date.parse(data.season.end) + 86_400_000).toISOString().slice(0, 10);
+  return { start, rows: [] };
 }
 
 // Scores arrive as text such as "2 - 1"; empty or "?" before kick-off.
@@ -105,7 +116,8 @@ export const liveScore: FootballProvider = {
   async standings(competitionId, season) {
     const { rows } = await getTable(competitionId, season);
     return rows
-      .map((r): StandingRow => ({
+      .map(({ row: r, group }): StandingRow => ({
+        group,
         rank: r.rank,
         team: { id: Number(r.team.id), name: r.team.name, logo: r.team.logo ?? "" },
         played: r.matches,
@@ -117,18 +129,19 @@ export const liveScore: FootballProvider = {
         goalDiff: r.goal_diff,
         points: r.points,
       }))
-      .sort((a, b) => a.rank - b.rank);
+      .sort((a, b) => (a.group ?? "").localeCompare(b.group ?? "") || a.rank - b.rank);
   },
 
   async seasonFixtures(competitionId, season) {
     const params = { competition_id: competitionId };
-    // The table gives the season's dates and its teams with their logos, which
-    // match entries do not carry.
+    // The table gives the season's start date and its teams with their logos,
+    // which match entries do not carry. Its teams are also used below to drop
+    // matches from other seasons or from cup qualifying rounds.
     const table = await getTable(competitionId, season);
-    const logos = new Map(table.rows.map((r) => [String(r.team.id), r.team.logo ?? ""]));
+    const logos = new Map(table.rows.map(({ row }) => [String(row.team.id), row.team.logo ?? ""]));
     const [upcoming, past, live] = await Promise.all([
       getAllPages("fixtures/matches.json", params, "fixtures"),
-      getAllPages("scores/history.json", { ...params, from: table.season.start }, "match"),
+      getAllPages("scores/history.json", { ...params, from: table.start }, "match"),
       get<{ match: LsMatch[] }>("scores/live.json", params).then((d) => d.match ?? []),
     ]);
 
@@ -161,9 +174,11 @@ export const liveScore: FootballProvider = {
     }
 
     // History since the season start also returns the previous season's last
-    // matches, so only matches between this season's teams are kept.
+    // matches, and for cups the qualifying rounds, so only matches between
+    // teams of the table are kept. Without a table (a cup before its group
+    // stage) every match since the season start is kept.
     const results = past
-      .filter((m) => logos.has(String(m.home_id)) && logos.has(String(m.away_id)))
+      .filter((m) => logos.size === 0 || (logos.has(String(m.home_id)) && logos.has(String(m.away_id))))
       .map((m) => toMatch(m, m.id, "finished"));
 
     // A live match replaces its upcoming entry. Live entries carry only the

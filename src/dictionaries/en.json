@@ -23,8 +23,11 @@
       "ES": "Spain",
       "IT": "Italy",
       "DE": "Germany",
-      "FR": "France"
-    }
+      "FR": "France",
+      "EU": "Europe",
+      "AF": "Africa"
+    },
+    "cups": "Continental cups"
   },
   "league": {
     "standings": "Standings",
@@ -43,7 +46,9 @@
     "goalsFor": "GF",
     "goalsAgainst": "GA",
     "legend": "P: played · W: won · D: drawn · L: lost · GF: goals for · GA: goals against · GD: goal difference",
-    "noMatches": "No matches for now."
+    "noMatches": "No matches for now.",
+    "noTable": "The table will be available when the group stage starts.",
+    "group": "Group"
   },
   "articles": {
     "title": "Articles",

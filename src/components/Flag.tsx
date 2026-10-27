@@ -1,5 +1,6 @@
 // Round country flags drawn in SVG (no external images). Codes match
-// `Competition.country`; England uses the St George cross.
+// `Competition.country`; England uses the St George cross, and the cups use
+// region badges: EU (ring of gold stars) and AF (gold star on green).
 const STAR = "50,19 68.2,75.1 20.5,40.4 79.5,40.4 31.8,75.1";
 
 function Fill({ country }: { country: string }) {
@@ -47,6 +48,22 @@ function Fill({ country }: { country: string }) {
           <rect width="34" height="100" fill="#0055a4" />
           <rect x="33" width="34" height="100" fill="#fff" />
           <rect x="66" width="34" height="100" fill="#ef4135" />
+        </>
+      );
+    case "EU":
+      return (
+        <>
+          <rect width="100" height="100" fill="#003399" />
+          {Array.from({ length: 12 }, (_, i) => (
+            <circle key={i} cx={50 + 28 * Math.sin((i * Math.PI) / 6)} cy={50 - 28 * Math.cos((i * Math.PI) / 6)} r="5" fill="#ffcc00" />
+          ))}
+        </>
+      );
+    case "AF":
+      return (
+        <>
+          <rect width="100" height="100" fill="#006233" />
+          <polygon points={STAR} transform="translate(15 15) scale(.7)" fill="#f2c200" />
         </>
       );
     default:

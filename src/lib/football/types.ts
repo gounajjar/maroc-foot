@@ -3,6 +3,8 @@
 export type Team = { id: number; name: string; logo: string };
 
 export type StandingRow = {
+  // Set only when the table is split into groups (some cups).
+  group?: string;
   rank: number;
   team: Team;
   played: number;
