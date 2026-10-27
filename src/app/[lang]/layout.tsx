@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { Barlow_Condensed, Geist, Reem_Kufi } from "next/font/google";
+import { LeagueMenu, LeagueMenuList } from "@/components/LeagueMenu";
 import { LogoMark } from "@/components/Logo";
 import { getDictionary, getLocale } from "@/dictionaries";
+import { enabledCompetitions } from "@/lib/competitions";
 import { isRtl, locales } from "@/lib/i18n";
 import "../globals.css";
 
@@ -35,6 +38,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
   const locale = await getLocale();
   const dict = await getDictionary();
+  const leagues = enabledCompetitions().map((c) => ({ href: `/${locale}/${c.slug}`, name: c.names[locale], country: c.country }));
 
   return (
     <html lang={locale} dir={isRtl(locale) ? "rtl" : "ltr"} className={`${geistSans.variable} ${barlow.variable} ${reemKufi.variable} h-full antialiased`}>
@@ -58,6 +62,9 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
             </ul>
           </nav>
         </header>
+        <Suspense fallback={<LeagueMenuList items={leagues} label={dict.nav.competitions} />}>
+          <LeagueMenu items={leagues} label={dict.nav.competitions} />
+        </Suspense>
         <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-6">{children}</main>
       </body>
     </html>
