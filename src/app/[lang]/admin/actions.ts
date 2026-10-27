@@ -28,7 +28,7 @@ function webUrl(value: string) {
 // Every action checks the session itself: server actions can be called directly.
 async function guard(): Promise<FormState> {
   if (!(await isAdmin())) return { ok: false, message: "Session expirée : reconnectez-vous." };
-  if (!hasDatabase()) return { ok: false, message: "La base de données n'est pas encore branchée (DATABASE_URL)." };
+  if (!hasDatabase()) return { ok: false, message: "La base de données n'est pas encore branchée (MF_DATABASE_URL)." };
   return null;
 }
 
