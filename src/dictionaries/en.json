@@ -35,5 +35,13 @@
     "points": "Pts",
     "noData": "Data unavailable for now.",
     "noKey": "The data source key is not configured."
+  },
+  "articles": {
+    "title": "Articles",
+    "intro": "A selection of football articles picked for you. Each article opens on the site that published it.",
+    "read": "Read on {source}",
+    "empty": "No articles yet.",
+    "latest": "Latest articles",
+    "seeAll": "All articles"
   }
 }

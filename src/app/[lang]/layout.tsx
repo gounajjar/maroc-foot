@@ -47,6 +47,9 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
                 Maroc<span className="text-[#9fe3b9]">·</span>Foot
               </span>
             </Link>
+            <Link href={`/${locale}/articles`} className="ms-auto font-display text-lg font-semibold tracking-wide uppercase opacity-90 hover:opacity-100">
+              {dict.nav.news}
+            </Link>
             <ul className="flex gap-3 text-sm">
               {locales.map((l) => (
                 <li key={l}>

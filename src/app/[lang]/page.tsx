@@ -1,7 +1,10 @@
+import { Suspense } from "react";
 import Link from "next/link";
+import { ArticleCard } from "@/components/ArticleCard";
 import { getDictionary, getLocale } from "@/dictionaries";
 import { enabledCompetitions, type Competition } from "@/lib/competitions";
 import { Flag } from "@/components/Flag";
+import { getArticles } from "@/lib/articles";
 
 // Card colour per country, taken from each flag.
 const cardColors: Record<string, string> = {
@@ -97,6 +100,34 @@ export default async function Home() {
           ))}
         </ul>
       </section>
+
+      <Suspense>
+        <LatestArticles />
+      </Suspense>
     </div>
+  );
+}
+
+async function LatestArticles() {
+  const locale = await getLocale();
+  const dict = await getDictionary();
+  const articles = await getArticles(locale, 3);
+  if (articles.length === 0) return null;
+  return (
+    <section>
+      <div className="mb-4 flex items-baseline justify-between gap-4">
+        <h2 className="font-display text-2xl font-extrabold">{dict.articles.latest}</h2>
+        <Link href={`/${locale}/articles`} className="text-sm font-semibold text-brand-red hover:underline">
+          {dict.articles.seeAll} <span aria-hidden="true" className="inline-block rtl:-scale-x-100">→</span>
+        </Link>
+      </div>
+      <ul className="grid gap-4 sm:grid-cols-3">
+        {articles.map((a) => (
+          <li key={a.url}>
+            <ArticleCard article={a} locale={locale} readLabel={dict.articles.read} />
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }

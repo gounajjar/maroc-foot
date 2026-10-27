@@ -35,5 +35,13 @@
     "points": "Pts",
     "noData": "Données indisponibles pour le moment.",
     "noKey": "La clé de la source de données n'est pas configurée."
+  },
+  "articles": {
+    "title": "Articles",
+    "intro": "Une sélection d'articles de foot repérés pour vous. Chaque article s'ouvre sur le site qui l'a publié.",
+    "read": "Lire sur {source}",
+    "empty": "Aucun article pour le moment.",
+    "latest": "Derniers articles",
+    "seeAll": "Tous les articles"
   }
 }
