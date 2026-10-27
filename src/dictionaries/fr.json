@@ -49,5 +49,13 @@
     "noMatches": "Aucun match pour le moment.",
     "noTable": "Le classement sera disponible au début de la phase de groupes.",
     "group": "Groupe"
+  },
+  "articles": {
+    "title": "Articles",
+    "intro": "Une sélection d'articles de foot repérés pour vous. Chaque article s'ouvre sur le site qui l'a publié.",
+    "read": "Lire sur {source}",
+    "empty": "Aucun article pour le moment.",
+    "latest": "Derniers articles",
+    "seeAll": "Tous les articles"
   }
 }
