@@ -44,5 +44,13 @@
     "goalsAgainst": "BC",
     "legend": "J : joués · G : gagnés · N : nuls · P : perdus · BP : buts marqués · BC : buts encaissés · Diff : différence de buts",
     "noMatches": "Aucun match pour le moment."
+  },
+  "articles": {
+    "title": "Articles",
+    "intro": "Une sélection d'articles de foot repérés pour vous. Chaque article s'ouvre sur le site qui l'a publié.",
+    "read": "Lire sur {source}",
+    "empty": "Aucun article pour le moment.",
+    "latest": "Derniers articles",
+    "seeAll": "Tous les articles"
   }
 }

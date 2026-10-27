@@ -44,5 +44,13 @@
     "goalsAgainst": "GA",
     "legend": "P: played · W: won · D: drawn · L: lost · GF: goals for · GA: goals against · GD: goal difference",
     "noMatches": "No matches for now."
+  },
+  "articles": {
+    "title": "Articles",
+    "intro": "A selection of football articles picked for you. Each article opens on the site that published it.",
+    "read": "Read on {source}",
+    "empty": "No articles yet.",
+    "latest": "Latest articles",
+    "seeAll": "All articles"
   }
 }
