@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
+import { AdSlot } from "@/components/AdSlot";
 import { Flag } from "@/components/Flag";
 import { Tabs } from "@/components/Tabs";
 import { getDictionary, getLocale, type Dictionary } from "@/dictionaries";
@@ -59,6 +60,7 @@ export default async function LeaguePage({ params }: PageProps<"/[lang]/[league]
           },
         ]}
       />
+      <AdSlot placement="inline" className="mt-8" />
     </article>
   );
 }

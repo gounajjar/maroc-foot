@@ -12,7 +12,7 @@ export type LeagueMenuItem = { href: string; name: string; country: string };
 export function LeagueMenuList({ items, label, active }: { items: LeagueMenuItem[]; label: string; active?: string }) {
   return (
     <nav aria-label={label} className="bg-[#12100f] text-white">
-      <ul className="mx-auto flex max-w-5xl gap-1 overflow-x-auto px-2 [scrollbar-width:none]">
+      <ul className="mx-auto flex max-w-(--page-width) gap-1 overflow-x-auto px-2 [scrollbar-width:none]">
         {items.map((item) => {
           const current = item.href === active;
           return (

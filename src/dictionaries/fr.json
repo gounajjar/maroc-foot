@@ -57,5 +57,8 @@
     "empty": "Aucun article pour le moment.",
     "latest": "Derniers articles",
     "seeAll": "Tous les articles"
+  },
+  "ads": {
+    "label": "Publicité"
   }
 }
