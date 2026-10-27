@@ -23,8 +23,11 @@
       "ES": "Espagne",
       "IT": "Italie",
       "DE": "Allemagne",
-      "FR": "France"
-    }
+      "FR": "France",
+      "EU": "Europe",
+      "AF": "Afrique"
+    },
+    "cups": "Coupes continentales"
   },
   "league": {
     "standings": "Classement",
@@ -43,6 +46,8 @@
     "goalsFor": "BP",
     "goalsAgainst": "BC",
     "legend": "J : joués · G : gagnés · N : nuls · P : perdus · BP : buts marqués · BC : buts encaissés · Diff : différence de buts",
-    "noMatches": "Aucun match pour le moment."
+    "noMatches": "Aucun match pour le moment.",
+    "noTable": "Le classement sera disponible au début de la phase de groupes.",
+    "group": "Groupe"
   }
 }
