@@ -20,6 +20,11 @@ type FdTableRow = {
   position: number;
   team: FdTeam;
   playedGames: number;
+  won: number;
+  draw: number;
+  lost: number;
+  goalsFor: number;
+  goalsAgainst: number;
   goalDifference: number;
   points: number;
 };
@@ -72,6 +77,11 @@ export const footballData: FootballProvider = {
       rank: r.position,
       team: toTeam(r.team),
       played: r.playedGames,
+      won: r.won,
+      drawn: r.draw,
+      lost: r.lost,
+      goalsFor: r.goalsFor,
+      goalsAgainst: r.goalsAgainst,
       goalDiff: r.goalDifference,
       points: r.points,
     }));

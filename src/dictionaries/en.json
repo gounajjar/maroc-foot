@@ -6,7 +6,8 @@
   "nav": {
     "home": "Home",
     "live": "Live",
-    "news": "News"
+    "news": "News",
+    "competitions": "Leagues"
   },
   "home": {
     "competitions": "Competitions",
@@ -28,13 +29,21 @@
   "league": {
     "standings": "Standings",
     "fixtures": "Upcoming fixtures",
-    "results": "Latest results",
+    "results": "Played",
     "team": "Team",
     "played": "P",
     "goalDiff": "GD",
     "points": "Pts",
     "noData": "Data unavailable for now.",
-    "noKey": "The data source key is not configured."
+    "noKey": "The data source key is not configured.",
+    "upcoming": "Upcoming",
+    "won": "W",
+    "drawn": "D",
+    "lost": "L",
+    "goalsFor": "GF",
+    "goalsAgainst": "GA",
+    "legend": "P: played · W: won · D: drawn · L: lost · GF: goals for · GA: goals against · GD: goal difference",
+    "noMatches": "No matches for now."
   },
   "articles": {
     "title": "Articles",
