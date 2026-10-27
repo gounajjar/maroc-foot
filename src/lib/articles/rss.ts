@@ -28,7 +28,11 @@ function toArticle(item: Node, feed: Feed): Article | null {
   const atomLink = list(item.link).find((l) => !attr(l, "rel") || attr(l, "rel") === "alternate");
   const link = typeof item.link === "string" ? item.link : (attr(atomLink, "href") ?? text(item.link));
   const url = absoluteUrl(link, feed.url);
-  const title = toTeaser(text(item.title), 200);
+  // Aggregators such as Google News name the original outlet in <source> and
+  // append " - Outlet" to the title; show the outlet instead of the feed name.
+  const outlet = toTeaser(text(item.source), 80);
+  const rawTitle = toTeaser(text(item.title), 200);
+  const title = outlet && rawTitle.endsWith(` - ${outlet}`) ? rawTitle.slice(0, -outlet.length - 3) : rawTitle;
   if (!url || !title) return null;
 
   const body = text(item.description) || text(item.summary) || text(item["content:encoded"]) || text(item.content);
@@ -43,9 +47,10 @@ function toArticle(item: Node, feed: Feed): Article | null {
   return {
     url,
     title,
-    description: toTeaser(body),
+    // Some feeds only repeat the title as description (Google News does).
+    description: toTeaser(body).startsWith(title) ? "" : toTeaser(body),
     image: absoluteUrl(image, url),
-    source: feed.name,
+    source: outlet || feed.name,
     publishedAt: toIsoDate(text(item.pubDate) || text(item.published) || text(item.updated) || text(item["dc:date"])),
     lang: feed.lang,
   };
