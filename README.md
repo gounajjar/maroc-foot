@@ -36,7 +36,7 @@ Les articles viennent de deux endroits, mélangés du plus récent au plus ancie
 - les flux RSS enregistrés (4 par défaut, voir `defaultFeeds` dans `src/lib/articles/db.ts`) ;
 - les liens collés à la main dans `/fr/admin`.
 
-Chaque flux ou article a une langue ; une page n'affiche que les articles de sa langue (ou tous, s'il n'y en a aucun).
+Chaque flux ou article a une langue ; une page n'affiche que les articles de sa langue.
 Les tables sont créées automatiquement au premier accès à la base.
 
 ## Étapes suivantes
