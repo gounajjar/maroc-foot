@@ -23,14 +23,28 @@ function attr(value: unknown, name: string): string | null {
   return typeof found === "string" ? found : null;
 }
 
+// Bing News links go through a click-tracking page that carries the real
+// article address in its "url" parameter.
+function unwrapRedirect(url: string | null) {
+  if (!url) return null;
+  try {
+    const parsed = new URL(url);
+    const target = parsed.hostname.endsWith("bing.com") ? parsed.searchParams.get("url") : null;
+    return target && /^https?:\/\//.test(target) ? target : url;
+  } catch {
+    return url;
+  }
+}
+
 // RSS 2.0 <item> and Atom <entry> both end up here.
 function toArticle(item: Node, feed: Feed): Article | null {
   const atomLink = list(item.link).find((l) => !attr(l, "rel") || attr(l, "rel") === "alternate");
   const link = typeof item.link === "string" ? item.link : (attr(atomLink, "href") ?? text(item.link));
-  const url = absoluteUrl(link, feed.url);
-  // Aggregators such as Google News name the original outlet in <source> and
-  // append " - Outlet" to the title; show the outlet instead of the feed name.
-  const outlet = toTeaser(text(item.source), 80);
+  const url = unwrapRedirect(absoluteUrl(link, feed.url));
+  // Aggregators name the original outlet (Google News in <source>, Bing News
+  // in <News:Source>) and Google appends " - Outlet" to the title; show the
+  // outlet instead of the feed name.
+  const outlet = toTeaser(text(item.source) || text(item["News:Source"]), 80);
   const rawTitle = toTeaser(text(item.title), 200);
   const title = outlet && rawTitle.endsWith(` - ${outlet}`) ? rawTitle.slice(0, -outlet.length - 3) : rawTitle;
   if (!url || !title) return null;
@@ -42,6 +56,7 @@ function toArticle(item: Node, feed: Feed): Article | null {
     attr(item["media:thumbnail"], "url") ??
     attr(list(item["media:group"])[0]?.["media:content"], "url") ??
     attr(enclosure, "url") ??
+    (text(item["News:Image"]) || null) ??
     firstImage(text(item["content:encoded"]) || body);
 
   return {
@@ -49,7 +64,7 @@ function toArticle(item: Node, feed: Feed): Article | null {
     title,
     // Some feeds only repeat the title as description (Google News does).
     description: toTeaser(body).startsWith(title) ? "" : toTeaser(body),
-    image: absoluteUrl(image, url),
+    image: absoluteUrl(image, url)?.replace(/^http:\/\//, "https://") ?? null,
     source: outlet || feed.name,
     publishedAt: toIsoDate(text(item.pubDate) || text(item.published) || text(item.updated) || text(item["dc:date"])),
     lang: feed.lang,
