@@ -36,9 +36,9 @@ async function allArticles(): Promise<Article[]> {
   return unique.sort((a, b) => sortKey(b).localeCompare(sortKey(a)));
 }
 
-// Articles in the page language; falls back to every language when none match.
+// Articles in the page language only: the site owner does not want, say,
+// French articles on the Arabic pages, even when no Arabic feed answers.
 export async function getArticles(locale: Locale, count = 30): Promise<Article[]> {
   const all = await allArticles();
-  const inLocale = all.filter((a) => a.lang === locale);
-  return (inLocale.length ? inLocale : all).slice(0, count);
+  return all.filter((a) => a.lang === locale).slice(0, count);
 }
