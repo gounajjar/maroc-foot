@@ -7,7 +7,9 @@
     "home": "Accueil",
     "live": "En direct",
     "news": "Articles",
-    "competitions": "Championnats"
+    "competitions": "Championnats",
+    "cupsEU": "Coupes continentales EU",
+    "cupsAF": "Coupes continentales AF"
   },
   "home": {
     "competitions": "Championnats",

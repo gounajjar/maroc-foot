@@ -50,7 +50,8 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
   const client = adsenseClient();
   // The page widens on large screens to make room for the sidebar ad.
   const sidebar = adEnabled("sidebar");
-  const leagues = enabledCompetitions().map((c) => ({ href: `/${locale}/${c.slug}`, name: c.names[locale], country: c.country }));
+  const leagues = enabledCompetitions().map((c) => ({ href: `/${locale}/${c.slug}`, name: c.names[locale], country: c.country, type: c.type }));
+  const cupGroups = { EU: dict.nav.cupsEU, AF: dict.nav.cupsAF };
 
   return (
     <html lang={locale} dir={isRtl(locale) ? "rtl" : "ltr"} className={`${geistSans.variable} ${barlow.variable} ${reemKufi.variable} h-full antialiased`}>
@@ -77,8 +78,8 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
             </ul>
           </nav>
         </header>
-        <Suspense fallback={<LeagueMenuList items={leagues} label={dict.nav.competitions} />}>
-          <LeagueMenu items={leagues} label={dict.nav.competitions} />
+        <Suspense fallback={<LeagueMenuList items={leagues} label={dict.nav.competitions} cupGroups={cupGroups} />}>
+          <LeagueMenu items={leagues} label={dict.nav.competitions} cupGroups={cupGroups} />
         </Suspense>
         <AdSlot placement="banner" className="mx-auto mt-4 w-full max-w-[728px] px-4" />
         <div className="mx-auto flex w-full max-w-(--page-width) flex-1 gap-8 px-4 py-6">

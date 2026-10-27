@@ -7,7 +7,9 @@
     "home": "الرئيسية",
     "live": "مباشر",
     "news": "مقالات",
-    "competitions": "البطولات"
+    "competitions": "البطولات",
+    "cupsEU": "الكؤوس الأوروبية",
+    "cupsAF": "الكؤوس الأفريقية"
   },
   "home": {
     "competitions": "البطولات",
