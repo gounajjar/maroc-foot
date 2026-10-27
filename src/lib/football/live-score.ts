@@ -11,7 +11,18 @@ const MAX_PAGES = 10;
 
 type Id = number | string;
 type LsTeam = { id: Id; name: string; logo?: string | null };
-type LsTableRow = { rank: number; points: number; matches: number; goal_diff: number; team: LsTeam };
+type LsTableRow = {
+  rank: number;
+  points: number;
+  matches: number;
+  won: number;
+  drawn: number;
+  lost: number;
+  goals_scored: number;
+  goals_conceded: number;
+  goal_diff: number;
+  team: LsTeam;
+};
 type LsTable = {
   season: { start: string; end: string };
   stages: { groups: { standings: LsTableRow[] }[] }[];
@@ -98,6 +109,11 @@ export const liveScore: FootballProvider = {
         rank: r.rank,
         team: { id: Number(r.team.id), name: r.team.name, logo: r.team.logo ?? "" },
         played: r.matches,
+        won: r.won,
+        drawn: r.drawn,
+        lost: r.lost,
+        goalsFor: r.goals_scored,
+        goalsAgainst: r.goals_conceded,
         goalDiff: r.goal_diff,
         points: r.points,
       }))

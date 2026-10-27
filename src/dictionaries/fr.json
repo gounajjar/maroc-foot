@@ -6,7 +6,8 @@
   "nav": {
     "home": "Accueil",
     "live": "En direct",
-    "news": "Articles"
+    "news": "Articles",
+    "competitions": "Championnats"
   },
   "home": {
     "competitions": "Championnats",
@@ -28,12 +29,20 @@
   "league": {
     "standings": "Classement",
     "fixtures": "Prochains matchs",
-    "results": "Derniers résultats",
+    "results": "Matchs joués",
     "team": "Équipe",
     "played": "J",
     "goalDiff": "Diff",
     "points": "Pts",
     "noData": "Données indisponibles pour le moment.",
-    "noKey": "La clé de la source de données n'est pas configurée."
+    "noKey": "La clé de la source de données n'est pas configurée.",
+    "upcoming": "À venir",
+    "won": "G",
+    "drawn": "N",
+    "lost": "P",
+    "goalsFor": "BP",
+    "goalsAgainst": "BC",
+    "legend": "J : joués · G : gagnés · N : nuls · P : perdus · BP : buts marqués · BC : buts encaissés · Diff : différence de buts",
+    "noMatches": "Aucun match pour le moment."
   }
 }

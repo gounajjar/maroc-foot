@@ -1,9 +1,13 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
+import { Flag } from "@/components/Flag";
+import { Tabs } from "@/components/Tabs";
 import { getDictionary, getLocale, type Dictionary } from "@/dictionaries";
 import { enabledCompetitions, findCompetition } from "@/lib/competitions";
-import { getLastResults, getNextFixtures, getStandings, type Loaded, type Match, type Source } from "@/lib/football";
+import { getLastResults, getNextFixtures, getStandings, type Loaded, type Match, type Source, type StandingRow, type Team } from "@/lib/football";
 import type { Locale } from "@/lib/i18n";
+
+const MATCH_COUNT = 20;
 
 export async function generateStaticParams() {
   return enabledCompetitions().map((c) => ({ league: c.slug }));
@@ -18,19 +22,42 @@ export default async function LeaguePage({ params }: PageProps<"/[lang]/[league]
   const { source } = competition;
 
   return (
-    <article className="space-y-8">
-      <h1 className="text-2xl font-semibold">{competition.names[locale]}</h1>
-      <Suspense>
-        <Standings source={source} dict={dict} />
-      </Suspense>
-      <div className="grid gap-8 md:grid-cols-2">
-        <Suspense>
-          <Matches title={dict.league.fixtures} load={getNextFixtures(source)} dict={dict} locale={locale} />
-        </Suspense>
-        <Suspense>
-          <Matches title={dict.league.results} load={getLastResults(source)} dict={dict} locale={locale} />
-        </Suspense>
-      </div>
+    <article>
+      <h1 className="font-display mb-5 flex items-center gap-3 text-3xl font-extrabold">
+        <Flag country={competition.country} size={40} />
+        {competition.names[locale]}
+      </h1>
+      <Tabs
+        tabs={[
+          {
+            id: "standings",
+            label: dict.league.standings,
+            content: (
+              <Suspense>
+                <Standings source={source} dict={dict} />
+              </Suspense>
+            ),
+          },
+          {
+            id: "upcoming",
+            label: dict.league.upcoming,
+            content: (
+              <Suspense>
+                <Matches load={getNextFixtures(source, MATCH_COUNT)} dict={dict} locale={locale} />
+              </Suspense>
+            ),
+          },
+          {
+            id: "results",
+            label: dict.league.results,
+            content: (
+              <Suspense>
+                <Matches load={getLastResults(source, MATCH_COUNT)} dict={dict} locale={locale} />
+              </Suspense>
+            ),
+          },
+        ]}
+      />
     </article>
   );
 }
@@ -40,75 +67,129 @@ function Unavailable({ result, dict }: { result: Loaded<unknown>; dict: Dictiona
   return <p className="opacity-70">{result.reason === "noKey" ? dict.league.noKey : dict.league.noData}</p>;
 }
 
+function Crest({ team }: { team: Team }) {
+  if (!team.logo) return <span className="size-5 shrink-0" />;
+  // Crests come from each provider's CDN, so they are not run through next/image.
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src={team.logo} alt="" width={20} height={20} loading="lazy" className="size-5 shrink-0 object-contain" />;
+}
+
+const tableClass = "w-full overflow-hidden rounded-xl bg-white text-sm shadow-sm dark:bg-white/5";
+
 async function Standings({ source, dict }: { source: Source; dict: Dictionary }) {
   const result = await getStandings(source);
+  if (!result.ok) return <Unavailable result={result} dict={dict} />;
+  const l = dict.league;
+  // Won, drawn and lost are hidden on narrow screens to leave room for names.
+  const stats = [
+    { label: l.played, value: (r: StandingRow) => r.played },
+    { label: l.won, value: (r: StandingRow) => r.won, wide: true },
+    { label: l.drawn, value: (r: StandingRow) => r.drawn, wide: true },
+    { label: l.lost, value: (r: StandingRow) => r.lost, wide: true },
+    { label: l.goalsFor, value: (r: StandingRow) => r.goalsFor },
+    { label: l.goalsAgainst, value: (r: StandingRow) => r.goalsAgainst },
+    { label: l.goalDiff, value: (r: StandingRow) => (r.goalDiff > 0 ? `+${r.goalDiff}` : r.goalDiff) },
+  ];
+  const cell = (wide?: boolean) => `px-1.5 py-2 text-center tabular-nums ${wide ? "hidden sm:table-cell" : ""}`;
+
   return (
-    <section>
-      <h2 className="mb-3 text-xl font-semibold">{dict.league.standings}</h2>
-      {!result.ok ? (
-        <Unavailable result={result} dict={dict} />
-      ) : (
-        <table className="w-full text-sm">
-          <thead className="opacity-70">
+    <>
+      <div className="overflow-x-auto">
+        <table className={tableClass}>
+          <thead className="bg-brand-red text-xs text-white uppercase">
             <tr>
-              <th className="w-8 py-1 text-start">#</th>
-              <th className="py-1 text-start">{dict.league.team}</th>
-              <th className="py-1 text-end">{dict.league.played}</th>
-              <th className="py-1 text-end">{dict.league.goalDiff}</th>
-              <th className="py-1 text-end">{dict.league.points}</th>
+              <th className="w-8 py-2 ps-3 text-start">#</th>
+              <th className="px-2 py-2 text-start">{l.team}</th>
+              {stats.map((s) => (
+                <th key={s.label} className={cell(s.wide)}>
+                  {s.label}
+                </th>
+              ))}
+              <th className="py-2 pe-3 ps-1.5 text-center">{l.points}</th>
             </tr>
           </thead>
           <tbody>
             {result.data.map((row) => (
-              <tr key={row.team.id} className="border-t border-black/10 dark:border-white/10">
-                <td className="py-1">{row.rank}</td>
-                <td className="py-1">{row.team.name}</td>
-                <td className="py-1 text-end">{row.played}</td>
-                <td className="py-1 text-end">{row.goalDiff}</td>
-                <td className="py-1 text-end font-semibold">{row.points}</td>
+              <tr key={row.team.id} className="border-t border-black/5 dark:border-white/10">
+                <td className="py-2 ps-3 font-semibold tabular-nums opacity-60">{row.rank}</td>
+                <td className="px-2 py-2">
+                  <span className="flex items-center gap-2">
+                    <Crest team={row.team} />
+                    <span className="font-medium">{row.team.name}</span>
+                  </span>
+                </td>
+                {stats.map((s) => (
+                  <td key={s.label} className={cell(s.wide)}>
+                    {s.value(row)}
+                  </td>
+                ))}
+                <td className="py-2 pe-3 ps-1.5 text-center font-bold tabular-nums">{row.points}</td>
               </tr>
             ))}
           </tbody>
         </table>
-      )}
-    </section>
+      </div>
+      <p className="mt-2 text-xs opacity-60">{l.legend}</p>
+    </>
   );
 }
 
-async function Matches({
-  title,
-  load: pending,
-  dict,
-  locale,
-}: {
-  title: string;
-  load: Promise<Loaded<Match[]>>;
-  dict: Dictionary;
-  locale: Locale;
-}) {
+async function Matches({ load: pending, dict, locale }: { load: Promise<Loaded<Match[]>>; dict: Dictionary; locale: Locale }) {
   const result = await pending;
-  const time = new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeStyle: "short", timeZone: "Africa/Casablanca" });
+  if (!result.ok) return <Unavailable result={result} dict={dict} />;
+  if (result.data.length === 0) return <p className="opacity-70">{dict.league.noMatches}</p>;
+
+  const timeZone = "Africa/Casablanca";
+  const day = new Intl.DateTimeFormat(locale, { weekday: "long", day: "numeric", month: "long", timeZone });
+  const time = new Intl.DateTimeFormat(locale, { timeStyle: "short", timeZone });
+  // Matches arrive sorted, so consecutive matches on the same day share a heading.
+  const days: { label: string; matches: Match[] }[] = [];
+  for (const m of result.data) {
+    const label = day.format(new Date(m.kickoff));
+    if (days.at(-1)?.label === label) days.at(-1)!.matches.push(m);
+    else days.push({ label, matches: [m] });
+  }
+
   return (
-    <section>
-      <h2 className="mb-3 text-xl font-semibold">{title}</h2>
-      {!result.ok ? (
-        <Unavailable result={result} dict={dict} />
-      ) : (
-        <ul className="space-y-2 text-sm">
-          {result.data.map((m) => (
-            <li key={m.id} className="rounded-md border border-black/10 p-2 dark:border-white/10">
-              <div className="opacity-60">{time.format(new Date(m.kickoff))}</div>
-              <div className="flex justify-between gap-2">
-                <span>{m.home.name}</span>
-                <span className="font-semibold">
-                  {m.status === "scheduled" ? "–" : `${m.homeGoals ?? 0} - ${m.awayGoals ?? 0}`}
+    <table className={tableClass}>
+      {days.map(({ label, matches }) => (
+        <tbody key={label}>
+          <tr className="bg-black/5 dark:bg-white/10">
+            <th colSpan={4} className="px-3 py-1.5 text-start text-xs font-semibold uppercase opacity-70">
+              {label}
+            </th>
+          </tr>
+          {matches.map((m) => (
+            <tr key={m.id} className="border-t border-black/5 dark:border-white/10">
+              <td className="w-14 py-2 ps-3 text-xs tabular-nums opacity-60">{time.format(new Date(m.kickoff))}</td>
+              <td className="px-2 py-2">
+                <span className="flex items-center justify-end gap-2 text-end">
+                  <span className="font-medium">{m.home.name}</span>
+                  <Crest team={m.home} />
                 </span>
-                <span>{m.away.name}</span>
-              </div>
-            </li>
+              </td>
+              <td className="w-16 py-2 text-center">
+                {m.status === "scheduled" ? (
+                  <span className="opacity-40">–</span>
+                ) : (
+                  // Two spans in a flex row, so the home score stays beside the home team in RTL.
+                  <span
+                    className={`inline-flex gap-1.5 rounded-md px-2 py-0.5 font-bold tabular-nums ${m.status === "live" ? "bg-brand-red text-white" : "bg-[#12100f] text-white dark:bg-white/15"}`}
+                  >
+                    <span>{m.homeGoals ?? 0}</span>-<span>{m.awayGoals ?? 0}</span>
+                  </span>
+                )}
+              </td>
+              <td className="py-2 pe-3 ps-2">
+                <span className="flex items-center gap-2">
+                  <Crest team={m.away} />
+                  <span className="font-medium">{m.away.name}</span>
+                </span>
+              </td>
+            </tr>
           ))}
-        </ul>
-      )}
-    </section>
+        </tbody>
+      ))}
+    </table>
   );
 }

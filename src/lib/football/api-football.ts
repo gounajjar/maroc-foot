@@ -15,7 +15,7 @@ type ApiStanding = {
   team: ApiTeam;
   points: number;
   goalsDiff: number;
-  all: { played: number };
+  all: { played: number; win: number; draw: number; lose: number; goals: { for: number; against: number } };
 };
 
 const LIVE = new Set(["1H", "HT", "2H", "ET", "BT", "P", "LIVE", "INT"]);
@@ -74,6 +74,11 @@ export const apiFootball: FootballProvider = {
       rank: s.rank,
       team: toTeam(s.team),
       played: s.all.played,
+      won: s.all.win,
+      drawn: s.all.draw,
+      lost: s.all.lose,
+      goalsFor: s.all.goals.for,
+      goalsAgainst: s.all.goals.against,
       goalDiff: s.goalsDiff,
       points: s.points,
     }));
