@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import Link from "next/link";
+import { AdSlot } from "@/components/AdSlot";
 import { ArticleCard } from "@/components/ArticleCard";
 import { getDictionary, getLocale } from "@/dictionaries";
 import { enabledCompetitions, type Competition } from "@/lib/competitions";
@@ -91,6 +92,8 @@ export default async function Home() {
           <CompetitionCards competitions={cups} locale={locale} country={country} />
         </section>
       )}
+
+      <AdSlot placement="inline" />
 
       <Suspense>
         <LatestArticles />

@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
+import { Fragment, Suspense } from "react";
+import { AdSlot } from "@/components/AdSlot";
 import { ArticleCard } from "@/components/ArticleCard";
 import { getDictionary, getLocale } from "@/dictionaries";
+import { adEnabled } from "@/lib/ads";
 import { getArticles } from "@/lib/articles";
+
+const AD_EVERY = 6;
 
 export async function generateMetadata(): Promise<Metadata> {
   const dict = await getDictionary();
@@ -29,12 +33,21 @@ async function ArticleGrid() {
   const dict = await getDictionary();
   const articles = await getArticles(locale, 30);
   if (articles.length === 0) return <p className="opacity-70">{dict.articles.empty}</p>;
+  const ads = adEnabled("inline");
   return (
     <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {articles.map((a) => (
-        <li key={a.url}>
-          <ArticleCard article={a} locale={locale} readLabel={dict.articles.read} />
-        </li>
+      {articles.map((a, i) => (
+        <Fragment key={a.url}>
+          <li>
+            <ArticleCard article={a} locale={locale} readLabel={dict.articles.read} />
+          </li>
+          {/* One ad after every two rows of cards (on the widest grid). */}
+          {ads && i % AD_EVERY === AD_EVERY - 1 && i < articles.length - 1 && (
+            <li className="col-span-full">
+              <AdSlot placement="inline" />
+            </li>
+          )}
+        </Fragment>
       ))}
     </ul>
   );

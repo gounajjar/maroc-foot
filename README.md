@@ -39,6 +39,17 @@ Les articles viennent de deux endroits, mélangés du plus récent au plus ancie
 Chaque flux ou article a une langue ; une page n'affiche que les articles de sa langue.
 Les tables sont créées automatiquement au premier accès à la base.
 
+## Publicité (Google AdSense)
+
+Les emplacements sont prêts mais restent invisibles tant que `ADSENSE_CLIENT` n'est pas renseigné (voir `.env.example` et `src/lib/ads.ts`) :
+
+- `banner` : bandeau sous la barre des championnats, sur toutes les pages ;
+- `inline` : bloc dans la page d'accueil, sous les onglets d'un championnat ou d'une coupe, et toutes les 6 cartes d'articles ;
+- `sidebar` : colonne à droite sur les grands écrans (1280 px et plus).
+
+La place de chaque annonce est réservée pour que la page ne saute pas au chargement. `/ads.txt` est généré à partir de `ADSENSE_CLIENT`.
+`ADS_PREVIEW=1` affiche des cadres gris à la place des annonces pour vérifier la mise en page. Les variables sont lues au moment du déploiement : après les avoir changées sur Vercel, relancer un déploiement.
+
 ## Étapes suivantes
 
 1. Choisir une source pour la Botola Pro (compte API-Football suspendu ; pistes : Live-score API, Statorium).
