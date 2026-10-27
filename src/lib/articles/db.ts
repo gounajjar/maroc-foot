@@ -12,7 +12,10 @@ export const defaultFeeds: Omit<Feed, "id">[] = [
   { url: "https://feeds.bbci.co.uk/sport/football/rss.xml", name: "BBC Sport", lang: "en" },
 ];
 
-export const hasDatabase = () => Boolean(process.env.DATABASE_URL?.trim());
+// The Neon integration on Vercel was connected with the prefix "MF", which
+// names the variable MF_DATABASE_URL; plain DATABASE_URL works too (local dev).
+const databaseUrl = () => (process.env.DATABASE_URL || process.env.MF_DATABASE_URL)?.trim() ?? "";
+export const hasDatabase = () => databaseUrl().length > 0;
 
 let client: postgres.Sql | undefined;
 let ready: Promise<void> | undefined;
@@ -21,7 +24,7 @@ let ready: Promise<void> | undefined;
 // such as Neon's.
 async function db() {
   if (!client) {
-    client = postgres(process.env.DATABASE_URL!.trim(), { prepare: false, max: 3, idle_timeout: 20 });
+    client = postgres(databaseUrl(), { prepare: false, max: 3, idle_timeout: 20 });
   }
   ready ??= migrate(client).catch((err) => {
     ready = undefined;

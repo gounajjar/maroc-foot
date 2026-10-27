@@ -36,7 +36,7 @@ async function Panel() {
         <button className="text-sm underline opacity-70 hover:opacity-100">Se déconnecter</button>
       </form>
       {!hasDatabase() ? (
-        <p className={card}>La base de données n&apos;est pas encore branchée (DATABASE_URL). Les flux par défaut s&apos;affichent, mais rien ne peut être ajouté.</p>
+        <p className={card}>La base de données n&apos;est pas encore branchée (MF_DATABASE_URL). Les flux par défaut s&apos;affichent, mais rien ne peut être ajouté.</p>
       ) : (
         <>
           <div className="grid gap-6 md:grid-cols-2">
