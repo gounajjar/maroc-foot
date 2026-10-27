@@ -60,5 +60,57 @@
   },
   "ads": {
     "label": "Advertisement"
+  },
+  "footer": {
+    "privacy": "Privacy policy",
+    "rights": "All rights reserved."
+  },
+  "privacy": {
+    "title": "Privacy policy",
+    "updated": "Last updated: 27 October 2026",
+    "intro": "This page explains what data is processed when you visit Maroc-Foot (maroc-foot.com), why, and how to exercise your rights.",
+    "sections": [
+      {
+        "title": "Who we are",
+        "paragraphs": [
+          "Maroc-Foot is a football information site: scores, standings, fixtures and links to articles published by other media. The site is published from Morocco. For any question: {email}."
+        ]
+      },
+      {
+        "title": "Data we collect",
+        "paragraphs": [
+          "The site asks for no sign-up, account or form: we do not collect your name, email address or phone number.",
+          "Like any website, our host (Vercel Inc.) keeps technical logs: IP address, browser type, requested page, date and time. They are used only to run and secure the site and are kept for a limited time."
+        ]
+      },
+      {
+        "title": "Cookies and advertising",
+        "paragraphs": [
+          "The site shows ads served by Google AdSense. Google and its partners use cookies to serve ads based on your visits to this site and other sites, and to measure their performance.",
+          "If you are in the European Economic Area, the United Kingdom or Switzerland, a message asks for your consent before any advertising cookie is set. You can change your choice at any time from that message.",
+          "You can turn off personalised ads at https://adssettings.google.com. To learn how Google uses data from partner sites: https://policies.google.com/technologies/partner-sites.",
+          "The site sets no other cookie for visitors. One technical cookie is used only by the administrator to sign in to the admin area."
+        ]
+      },
+      {
+        "title": "Links to other sites",
+        "paragraphs": [
+          "Suggested articles open on the site of the outlet that published them. Those sites have their own privacy policies, which we do not control."
+        ]
+      },
+      {
+        "title": "Your rights",
+        "paragraphs": [
+          "Under Moroccan law 09-08 and, for European visitors, the General Data Protection Regulation (GDPR), you can ask to access, correct or delete data about you, and object to its processing. Write to us at {email}.",
+          "You can also contact Morocco's data protection authority (CNDP) or the data protection authority of your country."
+        ]
+      },
+      {
+        "title": "Changes",
+        "paragraphs": [
+          "This policy may change, for example when new services are added to the site. The date at the top of the page shows the latest version."
+        ]
+      }
+    ]
   }
 }

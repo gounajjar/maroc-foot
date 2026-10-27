@@ -60,5 +60,57 @@
   },
   "ads": {
     "label": "Publicité"
+  },
+  "footer": {
+    "privacy": "Politique de confidentialité",
+    "rights": "Tous droits réservés."
+  },
+  "privacy": {
+    "title": "Politique de confidentialité",
+    "updated": "Dernière mise à jour : 27 octobre 2026",
+    "intro": "Cette page explique quelles données sont traitées lorsque vous visitez Maroc-Foot (maroc-foot.com), pourquoi, et comment exercer vos droits.",
+    "sections": [
+      {
+        "title": "Qui sommes-nous",
+        "paragraphs": [
+          "Maroc-Foot est un site d'information sur le football : résultats, classements, calendriers et liens vers des articles publiés par d'autres médias. Le site est édité depuis le Maroc. Pour toute question : {email}."
+        ]
+      },
+      {
+        "title": "Données que nous collectons",
+        "paragraphs": [
+          "Le site ne demande ni inscription, ni compte, ni formulaire : nous ne collectons pas votre nom, votre adresse e-mail ou votre numéro de téléphone.",
+          "Comme tout site web, notre hébergeur (Vercel Inc.) enregistre des journaux techniques : adresse IP, type de navigateur, page demandée, date et heure. Ils servent uniquement au bon fonctionnement et à la sécurité du site et sont conservés pour une durée limitée."
+        ]
+      },
+      {
+        "title": "Cookies et publicité",
+        "paragraphs": [
+          "Le site affiche des annonces fournies par Google AdSense. Google et ses partenaires utilisent des cookies pour diffuser des annonces en fonction de vos visites sur ce site et sur d'autres sites, et pour mesurer leur efficacité.",
+          "Si vous vous trouvez dans l'Espace économique européen, au Royaume-Uni ou en Suisse, un message vous demande votre consentement avant tout dépôt de cookie publicitaire. Vous pouvez modifier votre choix à tout moment depuis ce message.",
+          "Vous pouvez désactiver les annonces personnalisées sur https://adssettings.google.com. Pour savoir comment Google utilise les données des sites partenaires : https://policies.google.com/technologies/partner-sites.",
+          "Le site n'utilise pas d'autre cookie pour les visiteurs. Un cookie technique sert seulement à l'administrateur pour se connecter à l'espace d'administration."
+        ]
+      },
+      {
+        "title": "Liens vers d'autres sites",
+        "paragraphs": [
+          "Les articles proposés s'ouvrent sur le site du média qui les a publiés. Ces sites ont leur propre politique de confidentialité, sur laquelle nous n'avons aucun contrôle."
+        ]
+      },
+      {
+        "title": "Vos droits",
+        "paragraphs": [
+          "Conformément à la loi marocaine n° 09-08 et, pour les visiteurs européens, au Règlement général sur la protection des données (RGPD), vous pouvez demander l'accès, la rectification ou la suppression des données vous concernant, et vous opposer à leur traitement. Écrivez-nous à {email}.",
+          "Vous pouvez aussi saisir la Commission nationale de contrôle de la protection des données à caractère personnel (CNDP, Maroc) ou l'autorité de protection des données de votre pays."
+        ]
+      },
+      {
+        "title": "Modifications",
+        "paragraphs": [
+          "Cette politique peut évoluer, par exemple si de nouveaux services sont ajoutés au site. La date de mise à jour en haut de la page indique la dernière version."
+        ]
+      }
+    ]
   }
 }

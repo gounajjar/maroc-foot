@@ -89,6 +89,16 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
             </div>
           )}
         </div>
+        <footer className="bg-[#12100f] text-sm text-white/70">
+          <div className="mx-auto flex max-w-(--page-width) flex-wrap items-center justify-between gap-3 px-4 py-5">
+            <p>
+              © {dict.site.name}. {dict.footer.rights}
+            </p>
+            <Link href={`/${locale}/privacy`} className="hover:text-white hover:underline">
+              {dict.footer.privacy}
+            </Link>
+          </div>
+        </footer>
         {client && (
           <Script
             async
