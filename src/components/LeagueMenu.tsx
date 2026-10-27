@@ -15,7 +15,8 @@ const linkClass = (current: boolean) =>
 // Championship bar under the header. It lists every enabled competition, so a
 // competition added to `competitions` appears here without further changes:
 // leagues are shown as links and cups are grouped by region ("EU", "AF") into
-// dropdowns. The bar wraps onto a second line when the entries do not fit.
+// dropdowns. On phones and tablets the dropdowns give way to the original
+// single row of every competition, which scrolls sideways.
 export function LeagueMenuList({
   items,
   label,
@@ -31,7 +32,23 @@ export function LeagueMenuList({
   const regions = [...new Set(items.filter((i) => i.type === "cup").map((i) => i.country))];
   return (
     <nav aria-label={label} className="relative z-20 bg-[#12100f] text-white">
-      <ul className="mx-auto flex max-w-(--page-width) flex-wrap px-2 xl:max-w-none xl:justify-center">
+      <ul className="flex gap-1 overflow-x-auto px-2 [scrollbar-width:none] lg:hidden">
+        {items.map((item) => (
+          <li key={item.href} className="shrink-0">
+            <Link
+              href={item.href}
+              aria-current={item.href === active ? "page" : undefined}
+              className={`flex items-center gap-2 border-b-3 px-3 py-2.5 text-sm font-semibold whitespace-nowrap transition ${
+                item.href === active ? "border-[#9fe3b9] text-white" : "border-transparent text-white/70 hover:text-white"
+              }`}
+            >
+              <Flag country={item.country} size={18} />
+              {item.name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <ul className="mx-auto hidden max-w-(--page-width) flex-wrap px-2 lg:flex xl:max-w-none xl:justify-center">
         {leagues.map((item) => (
           <li key={item.href}>
             <Link href={item.href} aria-current={item.href === active ? "page" : undefined} className={linkClass(item.href === active)}>
