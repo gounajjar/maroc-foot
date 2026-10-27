@@ -7,7 +7,9 @@
     "home": "Home",
     "live": "Live",
     "news": "News",
-    "competitions": "Leagues"
+    "competitions": "Leagues",
+    "cupsEU": "European cups",
+    "cupsAF": "African cups"
   },
   "home": {
     "competitions": "Competitions",
