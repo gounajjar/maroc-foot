@@ -5,6 +5,7 @@ import { Tabs } from "@/components/Tabs";
 import { getDictionary, getLocale, type Dictionary } from "@/dictionaries";
 import { enabledCompetitions, findCompetition } from "@/lib/competitions";
 import { getLastResults, getNextFixtures, getStandings, type Loaded, type Match, type Source, type StandingRow, type Team } from "@/lib/football";
+import { teamName } from "@/lib/football/team-names";
 import type { Locale } from "@/lib/i18n";
 
 const MATCH_COUNT = 20;
@@ -34,7 +35,7 @@ export default async function LeaguePage({ params }: PageProps<"/[lang]/[league]
             label: dict.league.standings,
             content: (
               <Suspense>
-                <Standings source={source} dict={dict} />
+                <Standings source={source} dict={dict} locale={locale} />
               </Suspense>
             ),
           },
@@ -76,7 +77,7 @@ function Crest({ team }: { team: Team }) {
 
 const tableClass = "w-full overflow-hidden rounded-xl bg-white text-sm shadow-sm dark:bg-white/5";
 
-async function Standings({ source, dict }: { source: Source; dict: Dictionary }) {
+async function Standings({ source, dict, locale }: { source: Source; dict: Dictionary; locale: Locale }) {
   const result = await getStandings(source);
   if (!result.ok) return <Unavailable result={result} dict={dict} />;
   const l = dict.league;
@@ -130,7 +131,7 @@ async function Standings({ source, dict }: { source: Source; dict: Dictionary })
                       <td className="px-2 py-2">
                         <span className="flex items-center gap-2">
                           <Crest team={row.team} />
-                          <span className="font-medium">{row.team.name}</span>
+                          <span className="font-medium">{teamName(row.team, locale)}</span>
                         </span>
                       </td>
                       {stats.map((s) => (
@@ -182,7 +183,7 @@ async function Matches({ load: pending, dict, locale }: { load: Promise<Loaded<M
               <td className="w-14 py-2 ps-3 text-xs tabular-nums opacity-60">{time.format(new Date(m.kickoff))}</td>
               <td className="px-2 py-2">
                 <span className="flex items-center justify-end gap-2 text-end">
-                  <span className="font-medium">{m.home.name}</span>
+                  <span className="font-medium">{teamName(m.home, locale)}</span>
                   <Crest team={m.home} />
                 </span>
               </td>
@@ -201,7 +202,7 @@ async function Matches({ load: pending, dict, locale }: { load: Promise<Loaded<M
               <td className="py-2 pe-3 ps-2">
                 <span className="flex items-center gap-2">
                   <Crest team={m.away} />
-                  <span className="font-medium">{m.away.name}</span>
+                  <span className="font-medium">{teamName(m.away, locale)}</span>
                 </span>
               </td>
             </tr>
