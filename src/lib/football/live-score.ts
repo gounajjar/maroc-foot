@@ -35,6 +35,7 @@ type LsMatch = {
   id: Id;
   fixture_id?: Id;
   date?: string;
+  added?: string;
   time?: string;
   scheduled?: string;
   round?: string;
@@ -181,15 +182,17 @@ export const liveScore: FootballProvider = {
       .filter((m) => logos.size === 0 || (logos.has(String(m.home_id)) && logos.has(String(m.away_id))))
       .map((m) => toMatch(m, m.id, "finished"));
 
-    // A live match replaces its upcoming entry. Live entries carry only the
-    // kick-off time, so the date already known is kept.
+    // A live match replaces its upcoming entry. Its fixture id can point to a
+    // duplicate dropped above, so the entry is found by its teams instead.
+    // Live entries carry only the kick-off time, so the date comes from the
+    // upcoming entry, or else from when the API added the live entry.
     for (const m of live) {
       const status = liveStatus(m.status);
       const minute = status === "live" ? Number.parseInt(m.time ?? "", 10) || null : null;
-      const fixtureId = String(m.fixture_id ?? m.id);
-      const known = byFixture.get(fixtureId);
-      const match = toMatch(m, m.id, status, minute);
-      byFixture.set(fixtureId, { ...match, kickoff: known?.kickoff || match.kickoff });
+      const match = toMatch({ ...m, date: m.date ?? m.added?.slice(0, 10) }, m.id, status, minute);
+      const known = [...byFixture].find(([, u]) => u.status === "scheduled" && u.home.id === match.home.id && u.away.id === match.away.id);
+      if (known) byFixture.delete(known[0]);
+      byFixture.set(`live-${m.id}`, { ...match, kickoff: known?.[1].kickoff || match.kickoff });
     }
 
     // A match just finished can be in both history and live; history wins.

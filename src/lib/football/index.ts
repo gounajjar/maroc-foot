@@ -61,7 +61,9 @@ export async function getNextFixtures(source: Source, count = 10): Promise<Loade
   if (!hasKey(source)) return noKey;
   const result = await cachedSeasonFixtures(source.provider, source.id);
   if (!result.ok) return result;
-  return { ok: true, data: result.data.filter((m) => m.status === "scheduled").sort(byKickoff).slice(0, count) };
+  // Matches in progress come first, so live scores show at the top.
+  const next = result.data.filter((m) => m.status === "live" || m.status === "scheduled").sort(byKickoff);
+  return { ok: true, data: next.slice(0, count) };
 }
 
 export async function getLastResults(source: Source, count = 10): Promise<Loaded<Match[]>> {

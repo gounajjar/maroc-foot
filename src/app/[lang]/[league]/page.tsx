@@ -182,7 +182,9 @@ async function Matches({ load: pending, dict, locale }: { load: Promise<Loaded<M
           </tr>
           {matches.map((m) => (
             <tr key={m.id} className="border-t border-black/5 dark:border-white/10">
-              <td className="w-14 py-2 ps-3 text-xs tabular-nums opacity-60">{time.format(new Date(m.kickoff))}</td>
+              <td className="w-14 py-2 ps-3 text-xs tabular-nums opacity-60">
+                {m.status === "live" && m.minute ? `${m.minute}'` : time.format(new Date(m.kickoff))}
+              </td>
               <td className="px-2 py-2">
                 <span className="flex items-center justify-end gap-2 text-end">
                   <span className="font-medium">{teamName(m.home, locale)}</span>
