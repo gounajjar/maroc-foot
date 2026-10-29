@@ -71,3 +71,14 @@ export async function getLastResults(source: Source, count = 10): Promise<Loaded
   const finished = result.data.filter((m) => m.status === "finished").sort(byKickoff).reverse();
   return { ok: true, data: finished.slice(0, count) };
 }
+
+// Matches on a given day ("YYYY-MM-DD" in `timeZone`), plus any still in
+// progress, so a match that runs past midnight stays on the list.
+export async function getMatchesOfDay(source: Source, day: string, timeZone: string): Promise<Loaded<Match[]>> {
+  if (!hasKey(source)) return noKey;
+  const result = await cachedSeasonFixtures(source.provider, source.id);
+  if (!result.ok) return result;
+  const dayOf = new Intl.DateTimeFormat("en-CA", { timeZone });
+  const matches = result.data.filter((m) => m.status === "live" || (m.kickoff && dayOf.format(new Date(m.kickoff)) === day));
+  return { ok: true, data: matches.sort(byKickoff) };
+}

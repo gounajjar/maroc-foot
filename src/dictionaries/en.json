@@ -13,10 +13,6 @@
   },
   "home": {
     "competitions": "Competitions",
-    "heroEyebrow": "Botola Pro and Europe's top leagues",
-    "heroTitle": "Moroccan and European football, all in one place",
-    "heroText": "Scores, standings and fixtures updated all day long.",
-    "heroCta": "Go to Botola Pro",
     "others": "European leagues",
     "standings": "Standings and results",
     "countries": {
@@ -30,6 +26,14 @@
       "AF": "Africa"
     },
     "cups": "Continental cups"
+  },
+  "today": {
+    "title": "Today's matches",
+    "live": "live",
+    "finished": "FT",
+    "standings": "Standings",
+    "empty": "No matches today in our competitions.",
+    "noData": "Today's matches are unavailable right now."
   },
   "league": {
     "standings": "Standings",

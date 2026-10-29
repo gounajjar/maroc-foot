@@ -13,10 +13,6 @@
   },
   "home": {
     "competitions": "Championnats",
-    "heroEyebrow": "Botola Pro et grands championnats européens",
-    "heroTitle": "Tout le foot marocain et européen, au même endroit",
-    "heroText": "Résultats, classements et calendriers mis à jour toute la journée.",
-    "heroCta": "Voir la Botola Pro",
     "others": "Championnats européens",
     "standings": "Classement et résultats",
     "countries": {
@@ -30,6 +26,14 @@
       "AF": "Afrique"
     },
     "cups": "Coupes continentales"
+  },
+  "today": {
+    "title": "Matchs du jour",
+    "live": "en direct",
+    "finished": "Fin",
+    "standings": "Classement",
+    "empty": "Aucun match aujourd'hui dans nos compétitions.",
+    "noData": "Les matchs du jour sont indisponibles pour le moment."
   },
   "league": {
     "standings": "Classement",
