@@ -9,7 +9,8 @@ import { TodayMatches } from "@/components/TodayMatches";
 import type { Locale } from "@/lib/i18n";
 import { getArticles } from "@/lib/articles";
 import { getFeaturedPosts } from "@/lib/posts";
-import { PostCard } from "@/components/PostCard";
+import { commentLabel, PostCard } from "@/components/PostCard";
+import { commentCountsByPost } from "@/lib/comments";
 
 // Card colour per country, taken from each flag.
 const cardColors: Record<string, string> = {
@@ -123,7 +124,10 @@ async function LatestArticles() {
   return (
     <section>
       <div className="mb-4 flex items-baseline justify-between gap-4">
-        <h2 className="font-display text-2xl font-extrabold">{dict.articles.latest}</h2>
+        <div>
+          <h2 className="font-display text-2xl font-extrabold">{dict.articles.latest}</h2>
+          <p className="mt-1 text-sm opacity-70">{dict.articles.pressIntro}</p>
+        </div>
         <Link href={`/${locale}/articles`} className="text-sm font-semibold text-brand-red hover:underline">
           {dict.articles.seeAll} <span aria-hidden="true" className="inline-block rtl:-scale-x-100">→</span>
         </Link>
@@ -131,7 +135,7 @@ async function LatestArticles() {
       <ul className="grid gap-4 sm:grid-cols-3">
         {articles.map((a) => (
           <li key={a.url}>
-            <ArticleCard article={a} locale={locale} readLabel={dict.articles.read} />
+            <ArticleCard article={a} locale={locale} readLabel={dict.articles.read} externalLabel={dict.articles.external} />
           </li>
         ))}
       </ul>
@@ -144,17 +148,17 @@ async function LatestArticles() {
 async function FeaturedPosts() {
   const locale = await getLocale();
   const dict = await getDictionary();
-  const [first, ...rest] = await getFeaturedPosts(locale, 4);
+  const [[first, ...rest], counts] = await Promise.all([getFeaturedPosts(locale, 4), commentCountsByPost()]);
   if (!first) return null;
   return (
     <section>
       <h2 className="font-display mb-4 text-2xl font-extrabold">{dict.articles.featured}</h2>
-      <PostCard post={first} large label={dict.articles.ours} />
+      <PostCard post={first} large label={dict.articles.ours} comments={commentLabel(dict.articles, counts[first.id])} />
       {rest.length > 0 && (
         <ul className="mt-4 grid gap-4 sm:grid-cols-3">
           {rest.map((p) => (
             <li key={p.id}>
-              <PostCard post={p} label={dict.articles.ours} />
+              <PostCard post={p} label={dict.articles.ours} comments={commentLabel(dict.articles, counts[p.id])} />
             </li>
           ))}
         </ul>

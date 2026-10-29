@@ -58,14 +58,20 @@
   },
   "articles": {
     "title": "Articles",
-    "intro": "Une sélection d'articles de foot repérés pour vous. Chaque article s'ouvre sur le site qui l'a publié.",
+    "intro": "Les articles écrits par Maroc-Foot, que vous pouvez commenter, et une revue de presse des autres médias.",
     "read": "Lire sur {source}",
     "empty": "Aucun article pour le moment.",
-    "latest": "Derniers articles",
+    "latest": "Revue de presse",
     "seeAll": "Tous les articles",
     "ours": "Article Maroc-Foot",
     "featured": "À la une",
-    "oursTitle": "Nos articles"
+    "oursTitle": "Nos articles",
+    "press": "Revue de presse",
+    "pressIntro": "Des articles d'autres médias, repérés pour vous. Ils s'ouvrent sur le site qui les a publiés et ne peuvent pas être commentés ici.",
+    "oursIntro": "Écrits par la rédaction de Maroc-Foot. Lisez-les et donnez votre avis dans les commentaires.",
+    "external": "Lien externe",
+    "commentsCount": "{n} commentaire(s)",
+    "commentsNone": "Commenter"
   },
   "ads": {
     "label": "Publicité"

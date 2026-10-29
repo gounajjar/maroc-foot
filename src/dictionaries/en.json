@@ -58,14 +58,20 @@
   },
   "articles": {
     "title": "Articles",
-    "intro": "A selection of football articles picked for you. Each article opens on the site that published it.",
+    "intro": "Articles written by Maroc-Foot, which you can comment on, and a press review from other media.",
     "read": "Read on {source}",
     "empty": "No articles yet.",
-    "latest": "Latest articles",
+    "latest": "Press review",
     "seeAll": "All articles",
     "ours": "Maroc-Foot article",
     "featured": "Featured",
-    "oursTitle": "Our articles"
+    "oursTitle": "Our articles",
+    "press": "Press review",
+    "pressIntro": "Articles from other media, picked for you. They open on the site that published them and cannot be commented on here.",
+    "oursIntro": "Written by the Maroc-Foot team. Read them and share your view in the comments.",
+    "external": "External link",
+    "commentsCount": "{n} comment(s)",
+    "commentsNone": "Comment"
   },
   "ads": {
     "label": "Advertisement"
