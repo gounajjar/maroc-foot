@@ -3,6 +3,7 @@ import { cacheLife } from "next/cache";
 import { apiFootball } from "./api-football";
 import { footballData } from "./football-data";
 import { liveScore } from "./live-score";
+import { stored } from "./store";
 import type { FootballProvider, Match, ProviderName, Source } from "./types";
 
 export * from "./types";
@@ -34,16 +35,50 @@ async function attempt<T>(fetcher: () => Promise<T>, setLife: () => void): Promi
   }
 }
 
-// Until the sync worker and database exist, pages call the provider through
-// these cached wrappers so visitor traffic does not consume the API quota.
+const MINUTE = 60_000;
+const HOUR = 60 * MINUTE;
+
+// How long a stored answer stays fresh (see store.ts). Live-score charges each
+// page of results against a small daily quota, so its copies are kept longer.
+const standingsAge: Record<ProviderName, number> = { apiFootball: HOUR, footballData: 30 * MINUTE, liveScore: 2 * HOUR };
+const fixturesAge: Record<ProviderName, { busy: number; quiet: number }> = {
+  apiFootball: { busy: 5 * MINUTE, quiet: HOUR },
+  footballData: { busy: 5 * MINUTE, quiet: 30 * MINUTE },
+  liveScore: { busy: 10 * MINUTE, quiet: 3 * HOUR },
+};
+
+// A competition is busy while one of its matches is being played, or about to
+// start, so that scores follow; otherwise fixtures rarely change.
+function isBusy(matches: Match[]) {
+  const now = Date.now();
+  return matches.some((m) => {
+    if (m.status === "live") return true;
+    const kickoff = Date.parse(m.kickoff);
+    return m.status !== "finished" && kickoff - 10 * MINUTE < now && now < kickoff + 3 * HOUR;
+  });
+}
+
+// Pages call the provider through these cached wrappers so visitor traffic
+// does not consume the API quota.
 async function cachedStandings(provider: ProviderName, id: string) {
   "use cache";
-  return attempt(() => providers[provider].api.standings(id, season), () => cacheLife("hours"));
+  return attempt(
+    () => stored(`${provider}:${id}:${season ?? ""}:standings`, () => standingsAge[provider], () => providers[provider].api.standings(id, season)),
+    () => cacheLife("hours"),
+  );
 }
 
 async function cachedSeasonFixtures(provider: ProviderName, id: string) {
   "use cache";
-  return attempt(() => providers[provider].api.seasonFixtures(id, season), () => cacheLife("minutes"));
+  return attempt(
+    () =>
+      stored(
+        `${provider}:${id}:${season ?? ""}:fixtures`,
+        (matches) => (isBusy(matches) ? fixturesAge[provider].busy : fixturesAge[provider].quiet),
+        () => providers[provider].api.seasonFixtures(id, season),
+      ),
+    () => cacheLife("minutes"),
+  );
 }
 
 // The key is checked outside the cached scope so that adding it takes effect
