@@ -19,3 +19,6 @@ export async function getLocale(): Promise<Locale> {
 export async function getDictionary(): Promise<Dictionary> {
   return dictionaries[await getLocale()]();
 }
+
+// For server actions and e-mails, where the language comes from the form.
+export const dictionaryFor = (locale: Locale): Promise<Dictionary> => dictionaries[locale]();

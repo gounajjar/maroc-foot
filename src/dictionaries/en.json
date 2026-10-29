@@ -62,7 +62,10 @@
     "read": "Read on {source}",
     "empty": "No articles yet.",
     "latest": "Latest articles",
-    "seeAll": "All articles"
+    "seeAll": "All articles",
+    "ours": "Maroc-Foot article",
+    "featured": "Featured",
+    "oursTitle": "Our articles"
   },
   "ads": {
     "label": "Advertisement"
@@ -73,20 +76,44 @@
   },
   "privacy": {
     "title": "Privacy policy",
-    "updated": "Last updated: 27 October 2026",
+    "updated": "Last updated: 29 October 2026",
     "intro": "This page explains what data is processed when you visit Maroc-Foot (maroc-foot.com), why, and how to exercise your rights.",
     "sections": [
       {
         "title": "Who we are",
         "paragraphs": [
-          "Maroc-Foot is a football information site: scores, standings, fixtures and links to articles published by other media. The site is published from Morocco. For any question: {email}."
+          "Maroc-Foot is a football information site: scores, standings, fixtures, articles written by Maroc-Foot and links to articles published by other media. The site is published from Morocco. For any question: {email}."
         ]
       },
       {
         "title": "Data we collect",
         "paragraphs": [
-          "The site asks for no sign-up, account or form: we do not collect your name, email address or phone number.",
+          "You can read the whole site without an account. An account is only needed to comment on articles.",
+          "If you create an account, we store your e-mail address, your username, your password (encrypted: nobody, not even us, can read it), the site language when you signed up and the sign-up date. We also store your comments with their date, and the comments you report.",
           "Like any website, our host (Vercel Inc.) keeps technical logs: IP address, browser type, requested page, date and time. They are used only to run and secure the site and are kept for a limited time."
+        ]
+      },
+      {
+        "title": "What this data is used for",
+        "paragraphs": [
+          "Your e-mail address is used to validate your account, to sign you in and to send you a link if you forget your password. We never show it, never sell it and never send you advertising.",
+          "Your username and your comments are public: all visitors can see them once the editors have approved them. Do not write personal information in your comments.",
+          "Every comment is reviewed before it is published. We may refuse or remove a comment, and suspend an account, for insults, hate speech, advertising or illegal content.",
+          "This processing is based on the consent you give when creating your account, and is needed to provide the comment service."
+        ]
+      },
+      {
+        "title": "How long we keep it",
+        "paragraphs": [
+          "Your account data and comments are kept as long as your account exists. An account that is never validated is deleted automatically after 7 days.",
+          "A sign-in stays active for at most 30 days. The validation link is valid for 48 hours and the new-password link for 1 hour.",
+          "You can delete your account at any time from the “My account” page: your account and all your comments are then permanently erased."
+        ]
+      },
+      {
+        "title": "Who receives this data",
+        "paragraphs": [
+          "Only the Maroc-Foot team can see your account data. It is processed by our technical providers, only to run the site: Vercel Inc. (site hosting), Neon Inc. (database) and Resend (sending e-mails). These providers may store data outside Morocco, in particular in the United States or the European Union."
         ]
       },
       {
@@ -95,20 +122,21 @@
           "The site shows ads served by Google AdSense. Google and its partners use cookies to serve ads based on your visits to this site and other sites, and to measure their performance.",
           "If you are in the European Economic Area, the United Kingdom or Switzerland, a message asks for your consent before any advertising cookie is set. You can change your choice at any time from that message.",
           "You can turn off personalised ads at https://adssettings.google.com. To learn how Google uses data from partner sites: https://policies.google.com/technologies/partner-sites.",
-          "The site sets no other cookie for visitors. One technical cookie is used only by the administrator to sign in to the admin area."
+          "If you sign in to your account, a technical cookie (mf_member) keeps you signed in for at most 30 days; it is removed when you sign out. Another technical cookie is used only by the administrator to sign in to the admin area. The site sets no other cookie."
         ]
       },
       {
         "title": "Links to other sites",
         "paragraphs": [
-          "Suggested articles open on the site of the outlet that published them. Those sites have their own privacy policies, which we do not control."
+          "Articles from other media open on the site that published them. Those sites have their own privacy policies, which we do not control."
         ]
       },
       {
         "title": "Your rights",
         "paragraphs": [
-          "Under Moroccan law 09-08 and, for European visitors, the General Data Protection Regulation (GDPR), you can ask to access, correct or delete data about you, and object to its processing. Write to us at {email}.",
-          "You can also contact Morocco's data protection authority (CNDP) or the data protection authority of your country."
+          "Under Moroccan law 09-08 and, for European visitors, the General Data Protection Regulation (GDPR), you can ask to access, correct or delete data about you, and object to its processing. You can delete your account yourself from the “My account” page, or write to us at {email}.",
+          "You can also contact Morocco's data protection authority (CNDP) or the data protection authority of your country.",
+          "To create an account you must be at least 16 years old, or have a parent's permission."
         ]
       },
       {
@@ -118,5 +146,85 @@
         ]
       }
     ]
+  },
+  "account": {
+    "login": "Sign in",
+    "logout": "Sign out",
+    "signup": "Create an account",
+    "myAccount": "My account",
+    "email": "E-mail address",
+    "pseudo": "Username (shown with your comments)",
+    "password": "Password",
+    "passwordHint": "At least 8 characters.",
+    "newPassword": "New password",
+    "accept": "I am at least 16 and I accept the {privacy} and the comment rules: stay polite, no insults, no advertising.",
+    "privacyLink": "privacy policy",
+    "signupTitle": "Create an account",
+    "signupIntro": "A free account lets you comment on Maroc-Foot articles.",
+    "loginTitle": "Sign in",
+    "noAccount": "No account yet?",
+    "haveAccount": "Already have an account?",
+    "forgot": "Forgot your password?",
+    "forgotTitle": "Forgot your password",
+    "forgotIntro": "Enter your e-mail address and we will send you a link to choose a new password.",
+    "send": "Send the link",
+    "resetTitle": "Choose a new password",
+    "save": "Save",
+    "checkMail": "Account created! We sent you an e-mail: click the link inside to validate your account (check your spam folder too).",
+    "forgotSent": "If an account exists with this address, an e-mail has just been sent to it.",
+    "resetDone": "Password changed: you are signed in.",
+    "verified": "Your account is validated. You can now comment on articles.",
+    "badLink": "This link is no longer valid. It may have been used already or have expired.",
+    "notVerified": "Your account is not validated yet: click the link you received by e-mail.",
+    "resend": "Send the validation e-mail again",
+    "resent": "E-mail sent again.",
+    "wait": "An e-mail was just sent: please wait a minute.",
+    "errEmail": "Invalid e-mail address.",
+    "errPseudo": "The username must be 3 to 24 characters (letters, digits, space, - or _).",
+    "errPseudoTaken": "This username is already taken.",
+    "errEmailTaken": "An account already exists with this address. Sign in or use “Forgot your password”.",
+    "errPassword": "The password must be at least 8 characters.",
+    "errAccept": "You must accept the privacy policy.",
+    "errLogin": "Wrong e-mail address or password.",
+    "errBanned": "This account has been suspended.",
+    "errMail": "The e-mail could not be sent. Try again in a few minutes.",
+    "errClosed": "Sign-ups are not open yet.",
+    "memberSince": "Member since {date}",
+    "status": "Account status",
+    "statusOk": "validated",
+    "statusPending": "waiting for validation",
+    "changePassword": "Change password",
+    "changePasswordHint": "We will e-mail you a link to choose a new password.",
+    "delete": "Delete my account",
+    "deleteHint": "Your account and all your comments will be permanently deleted.",
+    "deleteConfirm": "Type DELETE to confirm",
+    "deleteWord": "DELETE",
+    "deleted": "Your account has been deleted.",
+    "mailVerifySubject": "Validate your Maroc-Foot account",
+    "mailVerifyIntro": "Hello {pseudo}, thanks for signing up to Maroc-Foot. Click the button below to validate your account.",
+    "mailVerifyButton": "Validate my account",
+    "mailVerifyOutro": "This link is valid for 48 hours. If you did not sign up, ignore this e-mail: the account will be deleted automatically.",
+    "mailResetSubject": "New Maroc-Foot password",
+    "mailResetIntro": "Hello {pseudo}, you asked to change your Maroc-Foot password.",
+    "mailResetButton": "Choose a new password",
+    "mailResetOutro": "This link is valid for 1 hour. If you did not ask for anything, ignore this e-mail: your password stays the same."
+  },
+  "comments": {
+    "title": "Comments",
+    "count": "{n} comment(s)",
+    "none": "No comments yet. Start the discussion!",
+    "placeholder": "Your comment…",
+    "send": "Post",
+    "reply": "Reply",
+    "cancel": "Cancel",
+    "report": "Report",
+    "reported": "Reported, thank you.",
+    "pending": "Thank you! Your comment will be visible once it has been approved by the editors.",
+    "loginToComment": "{login} or {signup} to comment.",
+    "verifyToComment": "Validate your account (link sent by e-mail) to comment.",
+    "errEmpty": "Write a comment (2,000 characters maximum).",
+    "errTooFast": "Please wait a little before posting another comment.",
+    "rules": "Comments are reviewed before they are published. Stay polite.",
+    "yourPending": "Waiting for approval"
   }
 }

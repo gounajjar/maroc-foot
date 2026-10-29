@@ -8,6 +8,8 @@ import { Flag } from "@/components/Flag";
 import { TodayMatches } from "@/components/TodayMatches";
 import type { Locale } from "@/lib/i18n";
 import { getArticles } from "@/lib/articles";
+import { getFeaturedPosts } from "@/lib/posts";
+import { PostCard } from "@/components/PostCard";
 
 // Card colour per country, taken from each flag.
 const cardColors: Record<string, string> = {
@@ -34,6 +36,10 @@ export default async function Home() {
     <div className="flex flex-col gap-10">
       <Suspense>
         <TodayMatches locale={locale} labels={dict.today} />
+      </Suspense>
+
+      <Suspense>
+        <FeaturedPosts />
       </Suspense>
 
       <section>
@@ -129,6 +135,30 @@ async function LatestArticles() {
           </li>
         ))}
       </ul>
+    </section>
+  );
+}
+
+// The owner's own articles chosen "à la une" in the admin page: the first
+// one large, the next ones as cards.
+async function FeaturedPosts() {
+  const locale = await getLocale();
+  const dict = await getDictionary();
+  const [first, ...rest] = await getFeaturedPosts(locale, 4);
+  if (!first) return null;
+  return (
+    <section>
+      <h2 className="font-display mb-4 text-2xl font-extrabold">{dict.articles.featured}</h2>
+      <PostCard post={first} large label={dict.articles.ours} />
+      {rest.length > 0 && (
+        <ul className="mt-4 grid gap-4 sm:grid-cols-3">
+          {rest.map((p) => (
+            <li key={p.id}>
+              <PostCard post={p} label={dict.articles.ours} />
+            </li>
+          ))}
+        </ul>
+      )}
     </section>
   );
 }

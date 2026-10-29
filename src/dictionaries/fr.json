@@ -62,7 +62,10 @@
     "read": "Lire sur {source}",
     "empty": "Aucun article pour le moment.",
     "latest": "Derniers articles",
-    "seeAll": "Tous les articles"
+    "seeAll": "Tous les articles",
+    "ours": "Article Maroc-Foot",
+    "featured": "À la une",
+    "oursTitle": "Nos articles"
   },
   "ads": {
     "label": "Publicité"
@@ -73,20 +76,44 @@
   },
   "privacy": {
     "title": "Politique de confidentialité",
-    "updated": "Dernière mise à jour : 27 octobre 2026",
+    "updated": "Dernière mise à jour : 29 octobre 2026",
     "intro": "Cette page explique quelles données sont traitées lorsque vous visitez Maroc-Foot (maroc-foot.com), pourquoi, et comment exercer vos droits.",
     "sections": [
       {
         "title": "Qui sommes-nous",
         "paragraphs": [
-          "Maroc-Foot est un site d'information sur le football : résultats, classements, calendriers et liens vers des articles publiés par d'autres médias. Le site est édité depuis le Maroc. Pour toute question : {email}."
+          "Maroc-Foot est un site d'information sur le football : résultats, classements, calendriers, articles rédigés par Maroc-Foot et liens vers des articles publiés par d'autres médias. Le site est édité depuis le Maroc. Pour toute question : {email}."
         ]
       },
       {
         "title": "Données que nous collectons",
         "paragraphs": [
-          "Le site ne demande ni inscription, ni compte, ni formulaire : nous ne collectons pas votre nom, votre adresse e-mail ou votre numéro de téléphone.",
+          "Vous pouvez lire tout le site sans compte. Un compte n'est nécessaire que pour commenter les articles.",
+          "Si vous créez un compte, nous enregistrons votre adresse e-mail, votre pseudo, votre mot de passe (sous forme chiffrée : personne, pas même nous, ne peut le lire), la langue du site au moment de l'inscription et la date d'inscription. Nous enregistrons aussi vos commentaires avec leur date, et les commentaires que vous signalez.",
           "Comme tout site web, notre hébergeur (Vercel Inc.) enregistre des journaux techniques : adresse IP, type de navigateur, page demandée, date et heure. Ils servent uniquement au bon fonctionnement et à la sécurité du site et sont conservés pour une durée limitée."
+        ]
+      },
+      {
+        "title": "À quoi servent ces données",
+        "paragraphs": [
+          "Votre adresse e-mail sert à valider votre compte, à vous connecter et à vous envoyer un lien si vous oubliez votre mot de passe. Nous ne l'affichons jamais, ne la vendons pas et ne vous envoyons pas de publicité.",
+          "Votre pseudo et vos commentaires sont publics : ils sont visibles par tous les visiteurs, une fois validés par la rédaction. N'écrivez pas d'informations personnelles dans vos commentaires.",
+          "Tous les commentaires sont relus avant publication. Nous pouvons refuser ou retirer un commentaire, et suspendre un compte, en cas d'insultes, de propos haineux, de publicité ou de contenu illégal.",
+          "Ces traitements reposent sur votre consentement, donné en créant votre compte, et sont nécessaires pour vous fournir le service de commentaires."
+        ]
+      },
+      {
+        "title": "Durée de conservation",
+        "paragraphs": [
+          "Vos données de compte et vos commentaires sont conservés tant que votre compte existe. Un compte jamais validé est supprimé automatiquement après 7 jours.",
+          "Une connexion reste active 30 jours au maximum. Le lien de validation est valable 48 heures et le lien de nouveau mot de passe 1 heure.",
+          "Vous pouvez supprimer votre compte à tout moment depuis la page « Mon compte » : votre compte et tous vos commentaires sont alors effacés définitivement."
+        ]
+      },
+      {
+        "title": "Qui reçoit ces données",
+        "paragraphs": [
+          "Seule l'équipe de Maroc-Foot a accès à vos données de compte. Elles sont traitées par nos prestataires techniques, uniquement pour faire fonctionner le site : Vercel Inc. (hébergement du site), Neon Inc. (base de données) et Resend (envoi des e-mails). Ces prestataires peuvent stocker les données hors du Maroc, notamment aux États-Unis ou dans l'Union européenne."
         ]
       },
       {
@@ -95,20 +122,21 @@
           "Le site affiche des annonces fournies par Google AdSense. Google et ses partenaires utilisent des cookies pour diffuser des annonces en fonction de vos visites sur ce site et sur d'autres sites, et pour mesurer leur efficacité.",
           "Si vous vous trouvez dans l'Espace économique européen, au Royaume-Uni ou en Suisse, un message vous demande votre consentement avant tout dépôt de cookie publicitaire. Vous pouvez modifier votre choix à tout moment depuis ce message.",
           "Vous pouvez désactiver les annonces personnalisées sur https://adssettings.google.com. Pour savoir comment Google utilise les données des sites partenaires : https://policies.google.com/technologies/partner-sites.",
-          "Le site n'utilise pas d'autre cookie pour les visiteurs. Un cookie technique sert seulement à l'administrateur pour se connecter à l'espace d'administration."
+          "Si vous vous connectez à votre compte, un cookie technique (mf_member) garde votre connexion pendant 30 jours au maximum ; il est supprimé quand vous vous déconnectez. Un autre cookie technique sert seulement à l'administrateur pour se connecter à l'espace d'administration. Le site n'utilise pas d'autre cookie."
         ]
       },
       {
         "title": "Liens vers d'autres sites",
         "paragraphs": [
-          "Les articles proposés s'ouvrent sur le site du média qui les a publiés. Ces sites ont leur propre politique de confidentialité, sur laquelle nous n'avons aucun contrôle."
+          "Les articles d'autres médias s'ouvrent sur le site qui les a publiés. Ces sites ont leur propre politique de confidentialité, sur laquelle nous n'avons aucun contrôle."
         ]
       },
       {
         "title": "Vos droits",
         "paragraphs": [
-          "Conformément à la loi marocaine n° 09-08 et, pour les visiteurs européens, au Règlement général sur la protection des données (RGPD), vous pouvez demander l'accès, la rectification ou la suppression des données vous concernant, et vous opposer à leur traitement. Écrivez-nous à {email}.",
-          "Vous pouvez aussi saisir la Commission nationale de contrôle de la protection des données à caractère personnel (CNDP, Maroc) ou l'autorité de protection des données de votre pays."
+          "Conformément à la loi marocaine n° 09-08 et, pour les visiteurs européens, au Règlement général sur la protection des données (RGPD), vous pouvez demander l'accès, la rectification ou la suppression des données vous concernant, et vous opposer à leur traitement. Vous pouvez supprimer votre compte vous-même depuis la page « Mon compte », ou nous écrire à {email}.",
+          "Vous pouvez aussi saisir la Commission nationale de contrôle de la protection des données à caractère personnel (CNDP, Maroc) ou l'autorité de protection des données de votre pays.",
+          "Pour créer un compte, vous devez avoir au moins 16 ans, ou l'accord d'un parent."
         ]
       },
       {
@@ -118,5 +146,85 @@
         ]
       }
     ]
+  },
+  "account": {
+    "login": "Se connecter",
+    "logout": "Se déconnecter",
+    "signup": "Créer un compte",
+    "myAccount": "Mon compte",
+    "email": "Adresse e-mail",
+    "pseudo": "Pseudo (affiché avec vos commentaires)",
+    "password": "Mot de passe",
+    "passwordHint": "8 caractères minimum.",
+    "newPassword": "Nouveau mot de passe",
+    "accept": "J'ai au moins 16 ans et j'accepte la {privacy} et les règles des commentaires : rester courtois, pas d'insultes, pas de publicité.",
+    "privacyLink": "politique de confidentialité",
+    "signupTitle": "Créer un compte",
+    "signupIntro": "Un compte gratuit vous permet de commenter les articles de Maroc-Foot.",
+    "loginTitle": "Se connecter",
+    "noAccount": "Pas encore de compte ?",
+    "haveAccount": "Déjà un compte ?",
+    "forgot": "Mot de passe oublié ?",
+    "forgotTitle": "Mot de passe oublié",
+    "forgotIntro": "Indiquez votre adresse e-mail : nous vous envoyons un lien pour choisir un nouveau mot de passe.",
+    "send": "Envoyer le lien",
+    "resetTitle": "Choisir un nouveau mot de passe",
+    "save": "Enregistrer",
+    "checkMail": "Compte créé ! Nous vous avons envoyé un e-mail : cliquez sur le lien qu'il contient pour valider votre compte (pensez à regarder dans les spams).",
+    "forgotSent": "Si un compte existe avec cette adresse, un e-mail vient de lui être envoyé.",
+    "resetDone": "Mot de passe changé : vous êtes connecté.",
+    "verified": "Votre compte est validé. Vous pouvez maintenant commenter les articles.",
+    "badLink": "Ce lien n'est plus valable. Il a peut-être déjà servi ou il a expiré.",
+    "notVerified": "Votre compte n'est pas encore validé : cliquez sur le lien reçu par e-mail.",
+    "resend": "Renvoyer l'e-mail de validation",
+    "resent": "E-mail renvoyé.",
+    "wait": "Un e-mail vient déjà d'être envoyé : patientez une minute.",
+    "errEmail": "Adresse e-mail invalide.",
+    "errPseudo": "Le pseudo doit faire 3 à 24 caractères (lettres, chiffres, espace, - ou _).",
+    "errPseudoTaken": "Ce pseudo est déjà pris.",
+    "errEmailTaken": "Un compte existe déjà avec cette adresse. Connectez-vous ou utilisez « Mot de passe oublié ».",
+    "errPassword": "Le mot de passe doit faire au moins 8 caractères.",
+    "errAccept": "Vous devez accepter la politique de confidentialité.",
+    "errLogin": "Adresse e-mail ou mot de passe incorrect.",
+    "errBanned": "Ce compte a été suspendu.",
+    "errMail": "L'e-mail n'a pas pu être envoyé. Réessayez dans quelques minutes.",
+    "errClosed": "Les inscriptions ne sont pas encore ouvertes.",
+    "memberSince": "Membre depuis le {date}",
+    "status": "Statut du compte",
+    "statusOk": "validé",
+    "statusPending": "en attente de validation",
+    "changePassword": "Changer de mot de passe",
+    "changePasswordHint": "Nous vous envoyons un lien par e-mail pour choisir un nouveau mot de passe.",
+    "delete": "Supprimer mon compte",
+    "deleteHint": "Votre compte et tous vos commentaires seront supprimés définitivement.",
+    "deleteConfirm": "Tapez SUPPRIMER pour confirmer",
+    "deleteWord": "SUPPRIMER",
+    "deleted": "Votre compte a été supprimé.",
+    "mailVerifySubject": "Validez votre compte Maroc-Foot",
+    "mailVerifyIntro": "Bonjour {pseudo}, merci pour votre inscription sur Maroc-Foot. Cliquez sur le bouton ci-dessous pour valider votre compte.",
+    "mailVerifyButton": "Valider mon compte",
+    "mailVerifyOutro": "Ce lien est valable 48 heures. Si vous n'êtes pas à l'origine de cette inscription, ignorez cet e-mail : le compte sera supprimé automatiquement.",
+    "mailResetSubject": "Nouveau mot de passe Maroc-Foot",
+    "mailResetIntro": "Bonjour {pseudo}, vous avez demandé à changer votre mot de passe Maroc-Foot.",
+    "mailResetButton": "Choisir un nouveau mot de passe",
+    "mailResetOutro": "Ce lien est valable 1 heure. Si vous n'avez rien demandé, ignorez cet e-mail : votre mot de passe reste le même."
+  },
+  "comments": {
+    "title": "Commentaires",
+    "count": "{n} commentaire(s)",
+    "none": "Aucun commentaire pour l'instant. Lancez la discussion !",
+    "placeholder": "Votre commentaire…",
+    "send": "Publier",
+    "reply": "Répondre",
+    "cancel": "Annuler",
+    "report": "Signaler",
+    "reported": "Signalé, merci.",
+    "pending": "Merci ! Votre commentaire sera visible dès qu'il aura été validé par la rédaction.",
+    "loginToComment": "{login} ou {signup} pour commenter.",
+    "verifyToComment": "Validez votre compte (lien reçu par e-mail) pour pouvoir commenter.",
+    "errEmpty": "Écrivez un commentaire (2 000 caractères maximum).",
+    "errTooFast": "Patientez un peu avant de publier un nouveau commentaire.",
+    "rules": "Les commentaires sont relus avant publication. Restez courtois.",
+    "yourPending": "En attente de validation"
   }
 }
