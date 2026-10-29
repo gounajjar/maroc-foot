@@ -129,6 +129,15 @@ async function migrate(sql: postgres.Sql) {
       created_at timestamptz not null default now(),
       primary key (comment_id, member_id)
     )`;
+  // Last good answer of each football data request (lib/football/store.ts),
+  // shared by all the site's server instances.
+  await sql`
+    create table if not exists football_cache (
+      key text primary key,
+      data jsonb,
+      fetched_at timestamptz,
+      attempted_at timestamptz
+    )`;
   // Seed the default feeds once, on an empty database.
   const [{ count }] = await sql<{ count: number }[]>`select count(*)::int as count from article_feeds`;
   if (count === 0) {
