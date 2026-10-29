@@ -5,6 +5,8 @@ import { hasDatabase, listFeeds, listManualArticles } from "@/lib/articles/db";
 import { fetchFeed } from "@/lib/articles/rss";
 import { logout, removeArticle, removeFeed } from "./actions";
 import { AddArticleForm, AddFeedForm, LoginForm } from "./forms";
+import { AdminNav } from "./nav";
+import { getLocale } from "@/dictionaries";
 
 // Admin screens are in French only: they are used by the site owner.
 export const metadata: Metadata = { title: "Administration", robots: { index: false, follow: false } };
@@ -32,9 +34,12 @@ async function Panel() {
 
   return (
     <div className="space-y-6">
-      <form action={logout}>
-        <button className="text-sm underline opacity-70 hover:opacity-100">Se déconnecter</button>
-      </form>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <AdminNav current="links" locale={await getLocale()} />
+        <form action={logout}>
+          <button className="text-sm underline opacity-70 hover:opacity-100">Se déconnecter</button>
+        </form>
+      </div>
       {!hasDatabase() ? (
         <p className={card}>La base de données n&apos;est pas encore branchée (MF_DATABASE_URL). Les flux par défaut s&apos;affichent, mais rien ne peut être ajouté.</p>
       ) : (

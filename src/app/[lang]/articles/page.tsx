@@ -5,6 +5,8 @@ import { ArticleCard } from "@/components/ArticleCard";
 import { getDictionary, getLocale } from "@/dictionaries";
 import { adEnabled } from "@/lib/ads";
 import { getArticles } from "@/lib/articles";
+import { PostCard } from "@/components/PostCard";
+import { getPosts } from "@/lib/posts";
 
 const AD_EVERY = 6;
 
@@ -21,6 +23,9 @@ export default async function ArticlesPage() {
         <h1 className="font-display text-3xl font-extrabold">{dict.articles.title}</h1>
         <p className="mt-1 opacity-70">{dict.articles.intro}</p>
       </header>
+      <Suspense>
+        <OwnPosts />
+      </Suspense>
       <Suspense fallback={<p className="opacity-60">…</p>}>
         <ArticleGrid />
       </Suspense>
@@ -50,5 +55,25 @@ async function ArticleGrid() {
         </Fragment>
       ))}
     </ul>
+  );
+}
+
+// Articles written on Maroc-Foot come first, before the selection from other media.
+async function OwnPosts() {
+  const locale = await getLocale();
+  const dict = await getDictionary();
+  const posts = await getPosts(locale, 12);
+  if (posts.length === 0) return null;
+  return (
+    <section className="space-y-4">
+      <h2 className="font-display text-2xl font-extrabold">{dict.articles.oursTitle}</h2>
+      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {posts.map((p) => (
+          <li key={p.id}>
+            <PostCard post={p} label={dict.articles.ours} />
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }

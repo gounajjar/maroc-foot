@@ -21,8 +21,8 @@ let client: postgres.Sql | undefined;
 let ready: Promise<void> | undefined;
 
 // prepare: false keeps queries compatible with pooled (pgbouncer) connections
-// such as Neon's.
-async function db() {
+// such as Neon's. Shared with the site's own articles (lib/posts).
+export async function db() {
   if (!client) {
     client = postgres(databaseUrl(), { prepare: false, max: 3, idle_timeout: 20 });
   }
@@ -54,6 +54,35 @@ async function migrate(sql: postgres.Sql) {
       published_at timestamptz,
       lang text not null,
       created_at timestamptz not null default now()
+    )`;
+  // Articles written on the site itself, and their pictures.
+  await sql`
+    create table if not exists post_images (
+      id serial primary key,
+      mime text not null,
+      data bytea not null,
+      created_at timestamptz not null default now()
+    )`;
+  await sql`
+    create table if not exists posts (
+      id serial primary key,
+      image_id integer references post_images (id) on delete set null,
+      published boolean not null default false,
+      featured boolean not null default false,
+      feature_order integer not null default 0,
+      published_at timestamptz,
+      created_at timestamptz not null default now(),
+      updated_at timestamptz not null default now()
+    )`;
+  // One row per language a post is written in (FR, AR, EN).
+  await sql`
+    create table if not exists post_translations (
+      post_id integer not null references posts (id) on delete cascade,
+      lang text not null,
+      title text not null,
+      summary text not null default '',
+      body text not null default '',
+      primary key (post_id, lang)
     )`;
   // Seed the default feeds once, on an empty database.
   const [{ count }] = await sql<{ count: number }[]>`select count(*)::int as count from article_feeds`;

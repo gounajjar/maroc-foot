@@ -62,7 +62,10 @@
     "read": "Read on {source}",
     "empty": "No articles yet.",
     "latest": "Latest articles",
-    "seeAll": "All articles"
+    "seeAll": "All articles",
+    "ours": "Maroc-Foot article",
+    "featured": "Featured",
+    "oursTitle": "Our articles"
   },
   "ads": {
     "label": "Advertisement"
