@@ -1,11 +1,12 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { AdSlot } from "@/components/AdSlot";
+import { Crest } from "@/components/Crest";
 import { Flag } from "@/components/Flag";
 import { Tabs } from "@/components/Tabs";
 import { getDictionary, getLocale, type Dictionary } from "@/dictionaries";
 import { enabledCompetitions, findCompetition } from "@/lib/competitions";
-import { getLastResults, getNextFixtures, getStandings, type Loaded, type Match, type Source, type StandingRow, type Team } from "@/lib/football";
+import { getLastResults, getNextFixtures, getStandings, type Loaded, type Match, type Source, type StandingRow } from "@/lib/football";
 import { teamName } from "@/lib/football/team-names";
 import type { Locale } from "@/lib/i18n";
 
@@ -68,13 +69,6 @@ export default async function LeaguePage({ params }: PageProps<"/[lang]/[league]
 function Unavailable({ result, dict }: { result: Loaded<unknown>; dict: Dictionary }) {
   if (result.ok) return null;
   return <p className="opacity-70">{result.reason === "noKey" ? dict.league.noKey : dict.league.noData}</p>;
-}
-
-function Crest({ team }: { team: Team }) {
-  if (!team.logo) return <span className="size-5 shrink-0" />;
-  // Crests come from each provider's CDN, so they are not run through next/image.
-  // eslint-disable-next-line @next/next/no-img-element
-  return <img src={team.logo} alt="" width={20} height={20} loading="lazy" className="size-5 shrink-0 object-contain" />;
 }
 
 const tableClass = "w-full overflow-hidden rounded-xl bg-white text-sm shadow-sm dark:bg-white/5";
