@@ -1,8 +1,11 @@
 import Link from "next/link";
+import { LogoMark } from "./Logo";
 import { imagePath, postPath, type LocalizedPost } from "@/lib/posts";
 
 // Card for an article written on Maroc-Foot: it opens on the site itself.
-export function PostCard({ post, large = false, label }: { post: LocalizedPost; large?: boolean; label: string }) {
+// The Maroc-Foot badge and the comment count tell it apart from the press
+// review cards (ArticleCard), which open elsewhere and cannot be commented.
+export function PostCard({ post, large = false, label, comments }: { post: LocalizedPost; large?: boolean; label: string; comments: string }) {
   const date = post.publishedAt
     ? new Intl.DateTimeFormat(post.lang, { dateStyle: "medium", timeZone: "Africa/Casablanca" }).format(new Date(post.publishedAt))
     : null;
@@ -23,13 +26,23 @@ export function PostCard({ post, large = false, label }: { post: LocalizedPost; 
         )}
       </div>
       <div className="flex flex-1 flex-col gap-2 p-4 md:p-5">
-        <p className="text-xs font-semibold tracking-wide text-brand-red uppercase">
+        <p className="flex flex-wrap items-center gap-x-1 text-xs font-semibold tracking-wide text-brand-red uppercase">
+          <LogoMark size={16} className="shrink-0" />
           {label}
           {date && <span className="font-normal text-current opacity-60"> · <bdi>{date}</bdi></span>}
         </p>
         <h3 className={`font-display leading-snug font-extrabold ${large ? "text-2xl md:text-3xl" : "text-xl"}`}>{post.title}</h3>
         {post.summary && <p className={`text-sm opacity-75 ${large ? "line-clamp-5" : "line-clamp-3"}`}>{post.summary}</p>}
+        <span className="mt-auto flex items-center gap-1.5 pt-2 text-sm font-semibold text-brand-green dark:text-[#9fe3b9]">
+          <svg viewBox="0 0 24 24" aria-hidden="true" className="size-4" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M4 5h16v11H9l-5 4z" strokeLinejoin="round" />
+          </svg>
+          {comments}
+        </span>
       </div>
     </Link>
   );
 }
+
+export const commentLabel = (t: { commentsCount: string; commentsNone: string }, n = 0) =>
+  n > 0 ? t.commentsCount.replace("{n}", String(n)) : t.commentsNone;

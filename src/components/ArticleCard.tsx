@@ -4,7 +4,7 @@ import type { Locale } from "@/lib/i18n";
 
 // Card for an external article: picture, title, teaser and a link to the
 // source site. The article itself is read on the source site.
-export function ArticleCard({ article, locale, readLabel }: { article: Article; locale: Locale; readLabel: string }) {
+export function ArticleCard({ article, locale, readLabel, externalLabel }: { article: Article; locale: Locale; readLabel: string; externalLabel: string }) {
   const date = article.publishedAt
     ? new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeZone: "Africa/Casablanca" }).format(new Date(article.publishedAt))
     : null;
@@ -18,6 +18,9 @@ export function ArticleCard({ article, locale, readLabel }: { article: Article; 
     >
       <div className="relative aspect-[16/9] overflow-hidden bg-[#12100f]">
         <ArticleImage src={article.image} source={article.source} />
+        <span className="absolute end-2 top-2 rounded-full bg-[#12100f]/80 px-2 py-0.5 text-xs font-semibold text-white backdrop-blur">
+          {externalLabel} <span aria-hidden="true" className="inline-block rtl:-scale-x-100">↗</span>
+        </span>
       </div>
       <div className="flex flex-1 flex-col gap-2 p-4">
         <p dir="auto" className="text-xs font-semibold tracking-wide text-brand-red uppercase">

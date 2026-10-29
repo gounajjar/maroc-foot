@@ -103,3 +103,21 @@ export async function deleteComment(id: number) {
   const sql = await db();
   await sql`delete from comments where id = ${id}`;
 }
+
+// Number of published comments of every post, for the article cards.
+export async function commentCountsByPost(): Promise<Record<number, number>> {
+  "use cache";
+  cacheTag(COMMENTS_TAG);
+  cacheLife("hours");
+  if (!hasDatabase()) return {};
+  try {
+    const sql = await db();
+    const rows = await sql<{ post_id: number; n: number }[]>`
+      select c.post_id, count(*)::int as n from comments c join members m on m.id = c.member_id
+      where c.status = 'approved' and not m.banned group by c.post_id`;
+    return Object.fromEntries(rows.map((r) => [r.post_id, r.n]));
+  } catch (err) {
+    console.error(err);
+    return {};
+  }
+}
