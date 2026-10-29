@@ -23,7 +23,10 @@ Sans clé API, les pages s'affichent avec un message « clé non configurée ».
 | `src/lib/competitions.ts` | Liste des championnats ; en ajouter un = une entrée de plus |
 | `src/lib/football/` | Accès aux données. `types.ts` définit un format neutre, `football-data.ts` et `live-score.ts` l'adaptent à chaque source |
 | `src/lib/articles/` | Articles externes : flux RSS (`rss.ts`), lecture des aperçus Open Graph (`open-graph.ts`), stockage Postgres (`db.ts`) |
-| `src/app/[lang]/admin/` | Page protégée (`ADMIN_PASSWORD`) pour ajouter un article par son lien ou un flux RSS |
+| `src/app/[lang]/admin/` | Page protégée (`ADMIN_PASSWORD`) : mes articles, commentaires à valider, membres, liens et flux RSS |
+| `src/lib/posts/` | Articles rédigés sur le site (une version par langue, photo en base) |
+| `src/lib/members/`, `src/lib/comments.ts` | Comptes des visiteurs (inscription, validation par e-mail, sessions) et commentaires |
+| `src/app/[lang]/account/` | Inscription, connexion, mot de passe oublié, « Mon compte » |
 | `src/proxy.ts` | Redirection vers la langue préférée |
 
 Les appels aux sources de données (football-data.org pour les 5 grands championnats, Live-score API pour la Botola, voir `src/lib/competitions.ts`) sont mis en cache côté serveur (`"use cache"`) pour que le trafic des visiteurs ne consomme pas le quota.
@@ -38,6 +41,14 @@ Les articles viennent de deux endroits, mélangés du plus récent au plus ancie
 
 Chaque flux ou article a une langue ; une page n'affiche que les articles de sa langue.
 Les tables sont créées automatiquement au premier accès à la base.
+
+## Articles Maroc-Foot, comptes et commentaires
+
+- `/fr/admin/articles` : écrire un article dans une, deux ou trois langues (un onglet par langue). Une langue sans titre n'affiche pas l'article dans cette langue. Les articles « À la une » s'affichent sur l'accueil (position 1 = en premier), tous les articles publiés en tête de la page Articles, chacun sur sa page `/fr/articles/12-titre`.
+- Mise en forme : `## Titre`, `### Sous-titre`, `- liste`, `> citation`, `**gras**`, `*italique*`, `[texte](https://lien)`. Rien d'autre n'est interprété (pas de HTML).
+- Les photos sont réduites dans le navigateur (1600 px de large) puis stockées dans Postgres, servies par `/api/media/<n>`.
+- Les visiteurs créent un compte (e-mail, pseudo, mot de passe chiffré avec scrypt), le valident avec le lien reçu par e-mail, puis commentent. Chaque commentaire attend la validation dans `/fr/admin/comments` ; les membres peuvent signaler un commentaire publié. Un membre bloqué ne peut plus se connecter et ses commentaires disparaissent.
+- E-mails envoyés avec Resend : `RESEND_API_KEY` (et `MAIL_FROM`, par défaut `Maroc-Foot <noreply@maroc-foot.com>`). Sans clé, les inscriptions sont fermées en production ; en local, le lien est écrit dans la console. `SITE_URL` (par défaut `https://maroc-foot.com`) sert à construire les liens des e-mails.
 
 ## Publicité (Google AdSense)
 

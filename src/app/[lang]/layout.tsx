@@ -3,6 +3,7 @@ import Link from "next/link";
 import Script from "next/script";
 import { Suspense } from "react";
 import { Barlow_Condensed, Geist, Reem_Kufi } from "next/font/google";
+import { AccountLink, AccountLinkFallback } from "@/components/AccountLink";
 import { AdSlot } from "@/components/AdSlot";
 import { LeagueMenu, LeagueMenuList } from "@/components/LeagueMenu";
 import { LogoMark } from "@/components/Logo";
@@ -57,17 +58,20 @@ export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
     <html lang={locale} dir={isRtl(locale) ? "rtl" : "ltr"} className={`${geistSans.variable} ${barlow.variable} ${reemKufi.variable} h-full antialiased`}>
       <body className={`min-h-full flex flex-col [--page-width:64rem] ${sidebar ? "xl:[--page-width:84rem]" : ""}`}>
         <header className="bg-brand-red text-white">
-          <nav className="mx-auto flex max-w-(--page-width) items-center justify-between gap-4 px-4 py-3">
-            <Link href={`/${locale}`} aria-label={dict.site.name} className="flex items-center gap-3">
-              <LogoMark size={44} inverse />
-              <span className="font-display text-2xl leading-none font-extrabold tracking-wide uppercase">
+          <nav className="mx-auto flex max-w-(--page-width) items-center justify-between gap-3 px-4 py-3 sm:gap-4">
+            <Link href={`/${locale}`} aria-label={dict.site.name} className="flex shrink-0 items-center gap-2 sm:gap-3">
+              <LogoMark size={44} inverse className="size-9 sm:size-11" />
+              <span className="font-display text-xl leading-none sm:text-2xl font-extrabold tracking-wide uppercase">
                 Maroc<span className="text-[#9fe3b9]">·</span>Foot
               </span>
             </Link>
-            <Link href={`/${locale}/articles`} className="ms-auto font-display text-lg font-semibold tracking-wide uppercase opacity-90 hover:opacity-100">
+            <Link href={`/${locale}/articles`} className="ms-auto font-display text-base font-semibold sm:text-lg tracking-wide uppercase opacity-90 hover:opacity-100">
               {dict.nav.news}
             </Link>
-            <ul className="flex gap-3 text-sm">
+            <Suspense fallback={<AccountLinkFallback locale={locale} label={dict.account.login} />}>
+              <AccountLink locale={locale} label={dict.account.login} />
+            </Suspense>
+            <ul className="flex gap-2 text-sm sm:gap-3">
               {locales.map((l) => (
                 <li key={l}>
                   <Link href={`/${l}`} className={l === locale ? "font-semibold underline underline-offset-4" : "opacity-80 hover:opacity-100"}>

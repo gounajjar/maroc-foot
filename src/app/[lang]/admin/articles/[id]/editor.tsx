@@ -40,7 +40,6 @@ export function PostEditor({ post, saved }: { post: Post | null; saved: boolean 
   const [uploading, setUploading] = useState(false);
   const bodyRef = useRef<HTMLTextAreaElement>(null);
 
-  const current = versions[tab];
   const update = (lang: Locale, patch: Partial<PostText>) => setVersions((v) => ({ ...v, [lang]: { ...v[lang], ...patch } }));
 
   // Toolbar: wraps the selected words, or starts the selected lines, with a mark.

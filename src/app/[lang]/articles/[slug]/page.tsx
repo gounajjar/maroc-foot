@@ -4,8 +4,9 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { AdSlot } from "@/components/AdSlot";
 import { getDictionary, getLocale } from "@/dictionaries";
-import { getPublishedPost, imagePath } from "@/lib/posts";
+import { getPublishedPost, imagePath, postPath } from "@/lib/posts";
 import { PostBody } from "@/lib/posts/format";
+import { Comments } from "./comments";
 
 // Address: /fr/articles/12-titre-de-l-article. Only the number counts.
 const idOf = (slug: string) => Number(decodeURIComponent(slug).match(/^\d+/)?.[0]);
@@ -59,6 +60,9 @@ async function Post({ params }: PageProps<"/[lang]/articles/[slug]">) {
       )}
       <PostBody text={post.body} />
       <AdSlot placement="inline" />
+      <Suspense>
+        <Comments postId={post.id} path={postPath(post)} locale={locale} dict={dict} />
+      </Suspense>
     </article>
   );
 }

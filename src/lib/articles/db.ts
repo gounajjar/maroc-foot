@@ -24,7 +24,7 @@ let ready: Promise<void> | undefined;
 // such as Neon's. Shared with the site's own articles (lib/posts).
 export async function db() {
   if (!client) {
-    client = postgres(databaseUrl(), { prepare: false, max: 3, idle_timeout: 20 });
+    client = postgres(databaseUrl(), { prepare: false, max: 3, idle_timeout: 20, onnotice: () => {} });
   }
   ready ??= migrate(client).catch((err) => {
     ready = undefined;
@@ -83,6 +83,51 @@ async function migrate(sql: postgres.Sql) {
       summary text not null default '',
       body text not null default '',
       primary key (post_id, lang)
+    )`;
+  // Visitor accounts, their sign-in sessions and e-mailed links (account
+  // validation, password reset), and their comments on posts.
+  await sql`
+    create table if not exists members (
+      id serial primary key,
+      email text not null unique,
+      pseudo text not null,
+      password_hash text not null,
+      lang text not null default 'fr',
+      verified_at timestamptz,
+      banned boolean not null default false,
+      created_at timestamptz not null default now()
+    )`;
+  await sql`create unique index if not exists members_pseudo on members (lower(pseudo))`;
+  await sql`
+    create table if not exists member_sessions (
+      token_hash text primary key,
+      member_id integer not null references members (id) on delete cascade,
+      expires_at timestamptz not null
+    )`;
+  await sql`
+    create table if not exists member_tokens (
+      token_hash text primary key,
+      member_id integer not null references members (id) on delete cascade,
+      kind text not null,
+      expires_at timestamptz not null,
+      created_at timestamptz not null default now()
+    )`;
+  await sql`
+    create table if not exists comments (
+      id serial primary key,
+      post_id integer not null references posts (id) on delete cascade,
+      member_id integer not null references members (id) on delete cascade,
+      parent_id integer references comments (id) on delete cascade,
+      body text not null,
+      status text not null default 'pending',
+      created_at timestamptz not null default now()
+    )`;
+  await sql`
+    create table if not exists comment_reports (
+      comment_id integer not null references comments (id) on delete cascade,
+      member_id integer not null references members (id) on delete cascade,
+      created_at timestamptz not null default now(),
+      primary key (comment_id, member_id)
     )`;
   // Seed the default feeds once, on an empty database.
   const [{ count }] = await sql<{ count: number }[]>`select count(*)::int as count from article_feeds`;
